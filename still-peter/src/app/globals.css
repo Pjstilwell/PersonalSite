@@ -29,6 +29,11 @@ body {
   width: 100%;
 }
 
+.home-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
 .page-wrapper {
   border-radius: 0.5rem;
   border-color: black;
@@ -40,6 +45,10 @@ body {
 .grid-wrapper {
   display: flex;
   height: calc(100% / 5);
+  width: 100%;
+}
+
+.control-wrapper {
   width: 100%;
 }
 
