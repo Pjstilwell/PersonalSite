@@ -216,17 +216,17 @@ function calculateNextIteration(
    * Any live cell with more than three live neighbours dies, as if by overpopulation.
    * Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
    */
-  for (let i: number = 0; i < numCols; i++) {
-    for (let j: number = 0; j < numRows; j++) {
+  for (let i: number = 0; i < numRows; i++) {
+    for (let j: number = 0; j < numCols; j++) {
       let numLiveNeighbours = 0;
-      if (i != numCols - 1 && j != numRows - 1 && ci[i + 1][j + 1])
+      if (i != numRows - 1 && j != numCols - 1 && ci[i + 1][j + 1])
         numLiveNeighbours++;
-      if (i != numCols - 1 && ci[i + 1][j]) numLiveNeighbours++;
-      if (i != numCols - 1 && j != 0 && ci[i + 1][j - 1]) numLiveNeighbours++;
-      if (i != 0 && j != numRows - 1 && ci[i - 1][j + 1]) numLiveNeighbours++;
+      if (i != numRows - 1 && ci[i + 1][j]) numLiveNeighbours++;
+      if (i != numRows - 1 && j != 0 && ci[i + 1][j - 1]) numLiveNeighbours++;
+      if (i != 0 && j != numCols - 1 && ci[i - 1][j + 1]) numLiveNeighbours++;
       if (i != 0 && ci[i - 1][j]) numLiveNeighbours++;
       if (i != 0 && j != 0 && ci[i - 1][j - 1]) numLiveNeighbours++;
-      if (j != numRows - 1 && ci[i][j + 1]) numLiveNeighbours++;
+      if (j != numCols - 1 && ci[i][j + 1]) numLiveNeighbours++;
       if (j != 0 && ci[i][j - 1]) numLiveNeighbours++;
 
       if (ci[i][j]) {
@@ -236,13 +236,14 @@ function calculateNextIteration(
         if (numLiveNeighbours == 3) nextIteration[i][j] = !nextIteration[i][j];
       }
 
-      // console.log(
-      //   "i: " + i + " j: " + j + " liveneighbours: " + numLiveNeighbours + " was: " + currentIteration[i][j] + " now: " + nextIteration[i][j]
-      // );
+      console.log(
+        "i: " + i + " j: " + j + " liveneighbours: " + numLiveNeighbours + " was: " + ci[i][j] + " now: " + nextIteration[i][j]
+      );
     }
   }
 
-  // console.log(nextIteration);
+  console.log(ci);
+  console.log(nextIteration);
 
   return nextIteration;
 }
