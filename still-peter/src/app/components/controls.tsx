@@ -1,4 +1,5 @@
 export default function Controls(props: any) {
+  const playClickedClass = props.playing ? "clicked-button" : "";
   return (
     <div className="control-wrapper">
       <h1 className="title">Game of Life</h1>
@@ -7,7 +8,10 @@ export default function Controls(props: any) {
           <button>
             <span className="material-symbols-outlined">first_page</span>
           </button>
-          <button>
+          <button
+            className={playClickedClass}
+            onClick={() => props.setPlaying(!props.playing)}
+          >
             <span className="material-symbols-outlined">play_pause</span>
           </button>
           <button onClick={() => props.goClicked()}>

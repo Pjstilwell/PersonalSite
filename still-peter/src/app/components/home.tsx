@@ -13,6 +13,7 @@ export default function Home() {
   const [nextIteration, setNextIteration] = useState(
     GridFunctions.initialiseZeroArray(numRows, numCols)
   );
+  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
     const newIteration = GridFunctions.initialiseZeroArray(numRows, numCols);
@@ -80,6 +81,8 @@ export default function Home() {
     numCols: numCols,
     numColsChanged,
     randomise,
+    playing: playing,
+    setPlaying,
   };
 
   return (

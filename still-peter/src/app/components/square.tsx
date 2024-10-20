@@ -17,14 +17,20 @@ export default function Square(props: any) {
 
   const stateClass = squareState ? "square-on" : "square-off";
 
+  const wrapStyle = {
+    width: `calc(100% / ${props.numCols})`,
+  };
+
+  const btnStyle = {
+    borderWidth: props.numCols + props.numRows > 100 ? "0rem" : "0.2rem",
+    borderRadius: props.numCols + props.numRows > 100 ? "0.5rem" : "1.5rem",
+  };
+
   return (
-    <div
-      className="square-wrapper"
-      key={props.squareKey}
-      style={{ width: `calc(100% / ${props.numCols})` }}
-    >
+    <div className="square-wrapper" key={props.squareKey} style={wrapStyle}>
       <button
         className={"square-button " + stateClass}
+        style={btnStyle}
         onClick={() => {
           squareClicked();
         }}
