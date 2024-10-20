@@ -76,14 +76,14 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .page-wrapper {
   border-radius: 0.5rem;
-  border-color: $cp-3;
+  border-color: $cp-4;
   border-width: 0.5rem;
   width: 85%;
   height: 100%;
 }
 
 .grid-wrapper {
-  background-color: $cp-2;
+  background-color: $cp-3;
   display: flex;
   height: calc(100% / 5);
   width: 100%;

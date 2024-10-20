@@ -10,7 +10,7 @@ export default function Controls(props: any) {
           </button>
           <button
             className={playClickedClass}
-            onClick={() => props.setPlaying(!props.playing)}
+            onClick={() => props.togglePlaying()}
           >
             <span className="material-symbols-outlined">play_pause</span>
           </button>

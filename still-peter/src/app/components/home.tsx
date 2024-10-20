@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GridFunctions } from "../grid-functions";
 import Controls from "./controls";
 import Grid from "./grid";
@@ -14,6 +14,21 @@ export default function Home() {
     GridFunctions.initialiseZeroArray(numRows, numCols)
   );
   const [playing, setPlaying] = useState(false);
+
+  // Using a ref to always get the latest value of `playing` inside the setTimeout callback
+  const playingRef = useRef(playing);
+  playingRef.current = playing;
+
+  useEffect(() => {
+    if (playing) {
+      const timeoutId = setTimeout(() => {
+        if (playingRef) {
+          goClicked();
+        }
+      }, 5000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [playing, nextIteration]);
 
   useEffect(() => {
     const newIteration = GridFunctions.initialiseZeroArray(numRows, numCols);
@@ -46,6 +61,10 @@ export default function Home() {
     setNextIteration(newIteration);
     setIteration(newIteration);
   }
+
+  const togglePlaying = () => {
+    setPlaying((prev) => !prev);
+  };
 
   function numRowsChanged(val: string) {
     const numVal = parseInt(val, 10);
@@ -82,7 +101,7 @@ export default function Home() {
     numColsChanged,
     randomise,
     playing: playing,
-    setPlaying,
+    togglePlaying,
   };
 
   return (
