@@ -2,7 +2,10 @@ export default function Controls(props: any) {
   const playClickedClass = props.playing ? "clicked-button" : "";
   return (
     <div className="control-wrapper">
-      <h1 className="title">Game of Life</h1>
+      <div className="title-wrapper">
+        <h1 className="title pixelify-sans-ps">GAME OF LIFE</h1>
+      </div>
+
       <div className="settings-wrapper">
         <div className="scrub-wrapper">
           <button>
@@ -23,24 +26,37 @@ export default function Controls(props: any) {
             <span className="material-symbols-outlined casino-logo-spacing">
               casino
             </span>
-            Randomise
+            <p id="randomise-para" className="pixelify-sans-ps">
+              Randomise
+            </p>
           </button>
         </div>
 
         <div className="row-col-controls-wrapper">
-          <p id="row-para">Rows:</p>
+          <div className="flexy">
+            <p id="row-para" className="pixelify-sans-ps">
+              Rows:
+            </p>
+          </div>
           <input
             id="row-input"
             type="number"
+            className="pixelify-sans-ps"
             min={0}
             max={100}
             value={props.numRows}
             onChange={(e) => props.numRowsChanged(e.target.value)}
           ></input>
-          <p id="col-para">Columns:</p>
+          <div className="flexy">
+            <p id="col-para" className="pixelify-sans-ps">
+              Columns:
+            </p>
+          </div>
+
           <input
             id="col-input"
             type="number"
+            className="pixelify-sans-ps"
             min={0}
             max={100}
             value={props.numCols}

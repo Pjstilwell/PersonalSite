@@ -12,6 +12,16 @@ $cp-2: #680747;
 $cp-3: #c3195d;
 $cp-4: #f70776;
 
+$cp2-1: #11e6b4;
+$cp2-2: #eb7fef;
+
+$cp3-1: #0f292f;
+$cp3-2: #14a098;
+$cp3-3: #501f3a;
+$cp3-4: #cb2d6f;
+$cp3-5: #cccccc;
+$cp3-6: #ffffff;
+
 body {
   color: var(--foreground);
   background: var(--background);
@@ -37,8 +47,8 @@ body {
 button {
   width: fit-content;
   text-align: center;
-  background-color: $cp-4;
-  color: $cp-1;
+  background-color: $cp3-4;
+  color: $cp3-6;
   border-radius: 0.5rem;
   border-width: 0.2rem;
   display: flex;
@@ -48,19 +58,21 @@ button {
 }
 
 .clicked-button {
-  border-color: $cp-2;
+  border-color: $cp3-1;
+  color: $cp3-1;
 }
 
-p {
-  margin: 0.5rem;
+h1 {
+  font-size: x-large;
 }
 
 input {
-  background-color: $cp-4;
+  background-color: $cp3-4;
   text-align: center;
   border-radius: 0.5rem;
   margin: 0.5rem;
   border-width: 0.2rem;
+  color: $cp3-6;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -72,30 +84,40 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 100%;
   height: 100%;
   display: flex;
+  background-color: $cp3-2;
 }
 
 .page-wrapper {
   border-radius: 0.5rem;
-  border-color: $cp-4;
+  border-color: $cp3-5;
   border-width: 0.5rem;
   width: 85%;
   height: 100%;
 }
 
 .grid-wrapper {
-  background-color: $cp-3;
+  background-color: $cp3-2;
   display: flex;
   height: calc(100% / 5);
   width: 100%;
 }
 
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem;
+}
+
 .control-wrapper {
+  min-width: 15rem;
   width: 15%;
-  margin: 0.5rem;
+  background-color: $cp3-2;
+  color: $cp3-6;
 }
 
 .square-wrapper {
-  border-color: $cp-3;
+  border-color: $cp3-4;
   width: calc(100% / 5);
   height: 100%;
   display: flex;
@@ -122,7 +144,7 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.2rem;
+  gap: 0.5rem;
 }
 
 .casino-logo-spacing {
@@ -130,7 +152,10 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .row-col-controls-wrapper {
-  margin: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
   display: grid;
   grid-template-columns: 2;
   grid-template-rows: 2;
@@ -157,9 +182,14 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .square-on {
-  background-color: $cp-2;
+  background-color: $cp3-4;
 }
 
 .square-off {
   background-color: white;
+}
+
+.flexy {
+  display: flex;
+  align-items: center;
 }

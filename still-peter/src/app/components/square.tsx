@@ -22,8 +22,8 @@ export default function Square(props: any) {
   };
 
   const btnStyle = {
-    borderWidth: props.numCols + props.numRows > 100 ? "0rem" : "0.2rem",
-    borderRadius: props.numCols + props.numRows > 100 ? "0.5rem" : "1.5rem",
+    borderWidth: props.numCols + props.numRows > 70 ? "0.1rem" : "0.2rem",
+    borderRadius: `${1.5 / ((props.numCols + props.numRows) / 20)}rem`,
   };
 
   return (

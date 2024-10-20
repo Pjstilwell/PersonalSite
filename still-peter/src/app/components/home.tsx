@@ -5,8 +5,8 @@ import Controls from "./controls";
 import Grid from "./grid";
 
 export default function Home() {
-  const [numRows, setNumRows] = useState(5);
-  const [numCols, setNumCols] = useState(5);
+  const [numRows, setNumRows] = useState(10);
+  const [numCols, setNumCols] = useState(10);
   const [iteration, setIteration] = useState(
     GridFunctions.initialiseZeroArray(numRows, numCols)
   );
@@ -25,7 +25,7 @@ export default function Home() {
         if (playingRef) {
           goClicked();
         }
-      }, 5000);
+      }, 500);
       return () => clearTimeout(timeoutId);
     }
   }, [playing, nextIteration]);
@@ -110,7 +110,7 @@ export default function Home() {
       {iteration.length === numRows && iteration[0]?.length === numCols ? (
         <Grid {...props} />
       ) : (
-        <div>Loading Grid...</div>
+        <div></div>
       )}
     </div>
   );
