@@ -3,7 +3,10 @@ export class GridFunctions {
     return this.createIterationArray(numRows, numCols);
   }
 
-  public static createIterationArray(numRows: number, numCols: number): boolean[][] {
+  public static createIterationArray(
+    numRows: number,
+    numCols: number
+  ): boolean[][] {
     let iteration: boolean[][] = [];
 
     for (let i = 0; i < numRows; i++) {
@@ -11,6 +14,13 @@ export class GridFunctions {
     }
 
     return iteration;
+  }
+
+  public static initialiseIterationStore(
+    numRows: any,
+    numCols: any
+  ): boolean[][][] {
+    return [this.createIterationArray(numRows, numCols)];
   }
 
   public static setStateOfPosition(
@@ -57,10 +67,6 @@ export class GridFunctions {
           if (numLiveNeighbours == 3)
             nextIteration[i][j] = !nextIteration[i][j];
         }
-
-        // console.log(
-        //   "i: " + i + " j: " + j + " liveneighbours: " + numLiveNeighbours + " was: " + ci[i][j] + " now: " + nextIteration[i][j]
-        // );
       }
     }
 
@@ -80,7 +86,10 @@ export class GridFunctions {
     return output;
   }
 
-  public static randomiseIteration(numRows: number, numCols: number): boolean[][] {
+  public static randomiseIteration(
+    numRows: number,
+    numCols: number
+  ): boolean[][] {
     let iteration: boolean[][] = [];
 
     for (let i = 0; i < numRows; i++) {

@@ -8,7 +8,10 @@ export default function Controls(props: any) {
 
       <div className="settings-wrapper">
         <div className="scrub-wrapper">
-          <button>
+          <button
+            disabled={props.iterationsLength < 2}
+            onClick={() => props.backClicked()}
+          >
             <span className="material-symbols-outlined">first_page</span>
           </button>
           <button

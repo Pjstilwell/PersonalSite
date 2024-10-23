@@ -13,6 +13,9 @@ export default function Home() {
   const [nextIteration, setNextIteration] = useState(
     GridFunctions.initialiseZeroArray(numRows, numCols)
   );
+  const [iterationStore, setIterationStore] = useState(
+    GridFunctions.initialiseIterationStore(numRows, numCols)
+  );
   const [playing, setPlaying] = useState(false);
 
   // Using a ref to always get the latest value of `playing` inside the setTimeout callback
@@ -52,7 +55,16 @@ export default function Home() {
     );
   }
 
+  function pushCurIterationToStore() {
+    //push current iteration into store
+    let curIterationStore = iterationStore;
+    const curIteration = nextIteration;
+    curIterationStore.push(curIteration);
+    setIterationStore(curIterationStore);
+  }
+
   function goClicked() {
+    pushCurIterationToStore();
     let newIteration = GridFunctions.calculateNextIteration(
       nextIteration,
       numRows,
@@ -60,6 +72,13 @@ export default function Home() {
     );
     setNextIteration(newIteration);
     setIteration(newIteration);
+  }
+
+  function backClicked() {
+    let newIteration = iterationStore.pop()!;
+    setNextIteration(newIteration);
+    setIteration(newIteration);
+    console.log(iterationStore);
   }
 
   const togglePlaying = () => {
@@ -81,12 +100,23 @@ export default function Home() {
   }
 
   function randomise() {
+    //randomise grid
     let newIteration = GridFunctions.randomiseIteration(numRows, numCols);
     setNextIteration(newIteration);
     setIteration(newIteration);
+
+    //TODO: look into bug that store isn't clearing?
+    //clear store
+    setIterationStore(GridFunctions.initialiseIterationStore(numRows, numCols));
+
+    pushCurIterationToStore();
   }
 
   function clearGrid() {
+    //clear store
+    setIterationStore(GridFunctions.initialiseIterationStore(numRows, numCols));
+
+    //clean grid
     let newIteration = GridFunctions.createIterationArray(numRows, numCols);
     setNextIteration(newIteration);
     setIteration(newIteration);
@@ -101,6 +131,7 @@ export default function Home() {
 
   let controlProps = {
     goClicked,
+    backClicked,
     numRows: numRows,
     numRowsChanged,
     numCols: numCols,
@@ -109,6 +140,7 @@ export default function Home() {
     clear: clearGrid,
     playing: playing,
     togglePlaying,
+    iterationsLength: iterationStore.length,
   };
 
   return (

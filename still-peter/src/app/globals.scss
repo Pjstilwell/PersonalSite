@@ -19,6 +19,7 @@ $cp3-1: #0f292f;
 $cp3-2: #14a098;
 $cp3-3: #501f3a;
 $cp3-4: #cb2d6f;
+$cp3-4-dis: #bf6088;
 $cp3-5: #cccccc;
 $cp3-6: #ffffff;
 
@@ -55,6 +56,15 @@ button {
   align-items: center;
   justify-content: center;
   padding: 0.3rem;
+}
+
+button:hover:not([disabled]) {
+  border-color: $cp3-1;
+  color: $cp3-1;
+}
+
+button:disabled {
+  background-color: $cp3-4-dis;
 }
 
 .clicked-button {
