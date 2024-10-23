@@ -21,14 +21,18 @@ export default function Controls(props: any) {
             <span className="material-symbols-outlined">last_page</span>
           </button>
         </div>
-        <div className="randomise-wrapper">
+        <div className="button-wrapper">
           <button onClick={() => props.randomise()}>
             <span className="material-symbols-outlined casino-logo-spacing">
               casino
             </span>
-            <p id="randomise-para" className="pixelify-sans-ps">
-              Randomise
-            </p>
+            <p className="pixelify-sans-ps">Randomise</p>
+          </button>
+          <button onClick={() => props.clear()}>
+            <span className="material-symbols-outlined casino-logo-spacing">
+              check_box_outline_blank
+            </span>
+            <p className="pixelify-sans-ps">Clear</p>
           </button>
         </div>
 

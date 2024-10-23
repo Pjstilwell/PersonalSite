@@ -86,6 +86,12 @@ export default function Home() {
     setIteration(newIteration);
   }
 
+  function clearGrid() {
+    let newIteration = GridFunctions.createIterationArray(numRows, numCols);
+    setNextIteration(newIteration);
+    setIteration(newIteration);
+  }
+
   let props = {
     iteration: iteration,
     squareClicked,
@@ -100,6 +106,7 @@ export default function Home() {
     numCols: numCols,
     numColsChanged,
     randomise,
+    clear: clearGrid,
     playing: playing,
     togglePlaying,
   };
