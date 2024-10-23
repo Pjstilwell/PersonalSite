@@ -101,4 +101,21 @@ export class GridFunctions {
 
     return iteration;
   }
+
+  /**
+   * Check for any active cells. Used to disable other functionality
+   * when no cells are active
+   */
+  public static checkForActiveCells(
+    currentIteration: boolean[][],
+    numRows: number,
+    numCols: number
+  ): boolean {
+    for (let i = 0; i < numRows; i++) {
+      for (let j = 0; j < numCols; j++) {
+        if (currentIteration[i][j]) return true;
+      }
+    }
+    return false;
+  }
 }

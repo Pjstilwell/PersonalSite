@@ -18,6 +18,9 @@ export default function Home() {
   );
   const [playing, setPlaying] = useState(false);
 
+  //tracks if any cells are active
+  const [activeCells, setActiveCells] = useState(false);
+
   // Using a ref to always get the latest value of `playing` inside the setTimeout callback
   const playingRef = useRef(playing);
   playingRef.current = playing;
@@ -53,6 +56,12 @@ export default function Home() {
         nextIteration
       )
     );
+
+    if (newVal) setActiveCells(true);
+    else
+      setActiveCells(
+        GridFunctions.checkForActiveCells(nextIteration, numRows, numCols)
+      );
   }
 
   function pushCurIterationToStore() {
@@ -72,13 +81,20 @@ export default function Home() {
     );
     setNextIteration(newIteration);
     setIteration(newIteration);
+
+    setActiveCells(
+      GridFunctions.checkForActiveCells(newIteration, numRows, numCols)
+    );
   }
 
   function backClicked() {
     let newIteration = iterationStore.pop()!;
     setNextIteration(newIteration);
     setIteration(newIteration);
-    console.log(iterationStore);
+
+    setActiveCells(
+      GridFunctions.checkForActiveCells(newIteration, numRows, numCols)
+    );
   }
 
   const togglePlaying = () => {
@@ -110,6 +126,10 @@ export default function Home() {
     setIterationStore(GridFunctions.initialiseIterationStore(numRows, numCols));
 
     pushCurIterationToStore();
+
+    setActiveCells(
+      GridFunctions.checkForActiveCells(newIteration, numRows, numCols)
+    );
   }
 
   function clearGrid() {
@@ -120,6 +140,8 @@ export default function Home() {
     let newIteration = GridFunctions.createIterationArray(numRows, numCols);
     setNextIteration(newIteration);
     setIteration(newIteration);
+
+    setActiveCells(false);
   }
 
   let props = {
@@ -141,6 +163,7 @@ export default function Home() {
     playing: playing,
     togglePlaying,
     iterationsLength: iterationStore.length,
+    activeCells: activeCells,
   };
 
   return (

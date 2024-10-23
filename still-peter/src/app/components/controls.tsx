@@ -15,12 +15,16 @@ export default function Controls(props: any) {
             <span className="material-symbols-outlined">first_page</span>
           </button>
           <button
+            disabled={!props.activeCells}
             className={playClickedClass}
             onClick={() => props.togglePlaying()}
           >
             <span className="material-symbols-outlined">play_pause</span>
           </button>
-          <button onClick={() => props.goClicked()}>
+          <button
+            disabled={!props.activeCells}
+            onClick={() => props.goClicked()}
+          >
             <span className="material-symbols-outlined">last_page</span>
           </button>
         </div>
@@ -31,7 +35,7 @@ export default function Controls(props: any) {
             </span>
             <p className="pixelify-sans-ps">Randomise</p>
           </button>
-          <button onClick={() => props.clear()}>
+          <button disabled={!props.activeCells} onClick={() => props.clear()}>
             <span className="material-symbols-outlined casino-logo-spacing">
               check_box_outline_blank
             </span>
