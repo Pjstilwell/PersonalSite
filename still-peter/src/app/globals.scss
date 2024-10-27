@@ -105,6 +105,24 @@ input[type="number"]::-webkit-outer-spin-button {
   height: 100%;
 }
 
+.flash-terminated {
+  animation-name: flash-border-term;
+  animation-iteration-count: 5;
+  animation-duration: 2s;
+}
+
+@keyframes flash-border-term {
+  0% {
+    border-color: $cp3-5;
+  }
+  50% {
+    border-color: $cp3-1;
+  }
+  100% {
+    border-color: $cp3-5;
+  }
+}
+
 .grid-wrapper {
   background-color: $cp3-2;
   display: flex;

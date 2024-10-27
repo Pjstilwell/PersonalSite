@@ -7,9 +7,6 @@ import Grid from "./grid";
 export default function Home() {
   const [numRows, setNumRows] = useState(10);
   const [numCols, setNumCols] = useState(10);
-  const [iteration, setIteration] = useState(
-    GridFunctions.initialiseZeroArray(numRows, numCols)
-  );
   const [nextIteration, setNextIteration] = useState(
     GridFunctions.initialiseZeroArray(numRows, numCols)
   );
@@ -20,6 +17,9 @@ export default function Home() {
 
   //tracks if any cells are active
   const [activeCells, setActiveCells] = useState(false);
+
+  //tracks if sequence is terminated
+  const [seqTerminated, setSeqTerminated] = useState(false);
 
   // Using a ref to always get the latest value of `playing` inside the setTimeout callback
   const playingRef = useRef(playing);
@@ -37,13 +37,11 @@ export default function Home() {
   }, [playing, nextIteration]);
 
   useEffect(() => {
-    const newIteration = GridFunctions.initialiseZeroArray(numRows, numCols);
     const newNextIteration = GridFunctions.initialiseZeroArray(
       numRows,
       numCols
     );
 
-    setIteration(newIteration);
     setNextIteration(newNextIteration);
   }, [numRows, numCols]);
 
@@ -56,6 +54,8 @@ export default function Home() {
         nextIteration
       )
     );
+
+    setSeqTerminated(false);
 
     if (newVal) setActiveCells(true);
     else
@@ -79,22 +79,37 @@ export default function Home() {
       numRows,
       numCols
     );
-    setNextIteration(newIteration);
-    setIteration(newIteration);
 
-    setActiveCells(
-      GridFunctions.checkForActiveCells(newIteration, numRows, numCols)
+    //Check for termination against previous 2 iterations
+    checkIfSequenceTerminated(
+      newIteration,
+      iterationStore[iterationStore.length - 1]
     );
+    checkIfSequenceTerminated(
+      newIteration,
+      iterationStore[iterationStore.length - 2]
+    );
+
+    //sequence terminated?
+    if (seqTerminated) {
+      seqTerminatedActions();
+    } else {
+      setNextIteration(newIteration);
+      setActiveCells(
+        GridFunctions.checkForActiveCells(newIteration, numRows, numCols)
+      );
+    }
   }
 
   function backClicked() {
     let newIteration = iterationStore.pop()!;
     setNextIteration(newIteration);
-    setIteration(newIteration);
 
     setActiveCells(
       GridFunctions.checkForActiveCells(newIteration, numRows, numCols)
     );
+
+    setSeqTerminated(false);
   }
 
   const togglePlaying = () => {
@@ -102,24 +117,29 @@ export default function Home() {
   };
 
   function numRowsChanged(val: string) {
-    const numVal = parseInt(val, 10);
+    let numVal = parseInt(val, 10);
+    if (numVal > 100) numVal = 100;
+    else if (numVal < 1) numVal = 1;
     if (!isNaN(numVal)) {
       setNumRows(numVal);
     }
+    setSeqTerminated(false);
   }
 
   function numColsChanged(val: string) {
-    const numVal = parseInt(val, 10);
+    let numVal = parseInt(val, 10);
+    if (numVal > 100) numVal = 100;
+    else if (numVal < 1) numVal = 1;
     if (!isNaN(numVal)) {
       setNumCols(numVal);
     }
+    setSeqTerminated(false);
   }
 
   function randomise() {
     //randomise grid
     let newIteration = GridFunctions.randomiseIteration(numRows, numCols);
     setNextIteration(newIteration);
-    setIteration(newIteration);
 
     //TODO: look into bug that store isn't clearing?
     //clear store
@@ -130,6 +150,8 @@ export default function Home() {
     setActiveCells(
       GridFunctions.checkForActiveCells(newIteration, numRows, numCols)
     );
+
+    setSeqTerminated(false);
   }
 
   function clearGrid() {
@@ -139,16 +161,28 @@ export default function Home() {
     //clean grid
     let newIteration = GridFunctions.createIterationArray(numRows, numCols);
     setNextIteration(newIteration);
-    setIteration(newIteration);
 
     setActiveCells(false);
+    setSeqTerminated(false);
+  }
+
+  function checkIfSequenceTerminated(m1: boolean[][], m2: boolean[][]) {
+    let same = (m1: boolean[][], m2: boolean[][]) =>
+      m1.flat().every((val, ind) => val === m2.flat()[ind]);
+
+    setSeqTerminated(same(m1, m2));
+  }
+
+  function seqTerminatedActions() {
+    setPlaying(false);
   }
 
   let props = {
-    iteration: iteration,
+    iteration: nextIteration,
     squareClicked,
     numRows: numRows,
     numCols: numCols,
+    seqTerminated: seqTerminated,
   };
 
   let controlProps = {
@@ -164,12 +198,14 @@ export default function Home() {
     togglePlaying,
     iterationsLength: iterationStore.length,
     activeCells: activeCells,
+    seqTerminated: seqTerminated,
   };
 
   return (
     <div className="home-wrapper">
       <Controls {...controlProps} />
-      {iteration.length === numRows && iteration[0]?.length === numCols ? (
+      {nextIteration.length === numRows &&
+      nextIteration[0]?.length === numCols ? (
         <Grid {...props} />
       ) : (
         <div></div>
