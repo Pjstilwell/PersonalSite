@@ -21,6 +21,9 @@ export default function Home() {
   //tracks if sequence is terminated
   const [seqTerminated, setSeqTerminated] = useState(false);
 
+  //tracks if pattern is currently selected
+  const [patternSelected, setPatternSelected] = useState(false);
+
   // Using a ref to always get the latest value of `playing` inside the setTimeout callback
   const playingRef = useRef(playing);
   playingRef.current = playing;
@@ -177,6 +180,14 @@ export default function Home() {
     setPlaying(false);
   }
 
+  function patternSelectedActions() {
+    setPatternSelected(true);
+  }
+
+  function patternUnselected() {
+    if (patternSelected) setPatternSelected(false);
+  }
+
   let props = {
     iteration: nextIteration,
     squareClicked,
@@ -199,10 +210,12 @@ export default function Home() {
     iterationsLength: iterationStore.length,
     activeCells: activeCells,
     seqTerminated: seqTerminated,
+    patternSelected: patternSelected,
+    patternSelectedActions,
   };
 
   return (
-    <div className="home-wrapper">
+    <div onClick={patternUnselected} className="home-wrapper">
       <Controls {...controlProps} />
       {nextIteration.length === numRows &&
       nextIteration[0]?.length === numCols ? (
