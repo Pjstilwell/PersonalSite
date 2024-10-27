@@ -46,8 +46,6 @@ body {
 }
 
 button {
-  width: fit-content;
-  text-align: center;
   background-color: $cp3-4;
   color: $cp3-6;
   border-radius: 0.5rem;
@@ -63,7 +61,7 @@ button:hover:not([disabled]) {
   color: $cp3-1;
 }
 
-button:disabled {
+button:disabled:not(.display-square) {
   background-color: $cp3-4-dis;
 }
 
@@ -126,8 +124,11 @@ input[type="number"]::-webkit-outer-spin-button {
 .grid-wrapper {
   background-color: $cp3-2;
   display: flex;
-  height: calc(100% / 5);
-  width: 100%;
+}
+
+.display-grid-wrapper {
+  background-color: $cp3-2;
+  display: flex;
 }
 
 .title-wrapper {
@@ -144,16 +145,25 @@ input[type="number"]::-webkit-outer-spin-button {
   color: $cp3-6;
 }
 
+.display-square-wrapper {
+  min-height: 3rem;
+}
+
+.display-square {
+  border-radius: 1rem;
+  width: 100%;
+  height: 100%;
+}
+
 .square-wrapper {
   border-color: $cp3-4;
-  width: calc(100% / 5);
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.square-button {
+.square-button:not([disabled]) {
   border-radius: 1.5rem;
   width: 100%;
   height: 100%;
@@ -191,9 +201,32 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .add-patterns-wrapper {
+  margin: 1rem;
+}
+
+.add-patterns-text-wrapper {
   display: flex;
   justify-content: center;
   margin: 1rem;
+}
+
+.patterns-wrapper {
+  margin: 1rem;
+}
+
+.pattern-wrapper {
+  margin: 0.25rem;
+}
+
+.pattern-button {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2;
+}
+
+.pattern-display-wrapper {
+  margin: 1rem;
+  background-color: white;
 }
 
 #row-para {

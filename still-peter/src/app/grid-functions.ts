@@ -1,3 +1,6 @@
+import { patternSquares } from "./resources/pattern-squares";
+import { Patterns } from "./resources/Patterns";
+
 export class GridFunctions {
   public static initialiseZeroArray(numRows: any, numCols: any) {
     return this.createIterationArray(numRows, numCols);
@@ -117,5 +120,26 @@ export class GridFunctions {
       }
     }
     return false;
+  }
+
+  /**
+   * Handles pattern applied to grid
+   */
+  public static applyPattern(
+    pattern: Patterns,
+    row: number,
+    col: number,
+    nextIteration: boolean[][]
+  ): boolean[][] {
+    for (let i = 0; i < patternSquares[pattern].size[1]; i++) {
+      for (let j = 0; j < patternSquares[pattern].size[0]; j++) {
+        //iterate over squares and check if the current square is included
+        //to be set to true in the grid. In this way all other squares are set to false
+        nextIteration[row + i][col + j] = patternSquares[pattern].squares.some(
+          (square) => square[0] === i && square[1] === j
+        );
+      }
+    }
+    return nextIteration;
   }
 }

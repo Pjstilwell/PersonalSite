@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { GridFunctions } from "../grid-functions";
 import Controls from "./controls";
 import Grid from "./grid";
+import { Patterns } from "../resources/Patterns";
 
 export default function Home() {
   const [numRows, setNumRows] = useState(10);
@@ -23,6 +24,9 @@ export default function Home() {
 
   //tracks if pattern is currently selected
   const [patternSelected, setPatternSelected] = useState(false);
+
+  //tracks the selected pattern
+  const [selectedPattern, setSelectedPattern] = useState(Patterns.block);
 
   // Using a ref to always get the latest value of `playing` inside the setTimeout callback
   const playingRef = useRef(playing);
@@ -49,22 +53,38 @@ export default function Home() {
   }, [numRows, numCols]);
 
   function squareClicked(rowIndex: number, colIndex: number, newVal: boolean) {
-    setNextIteration(
-      GridFunctions.setStateOfPosition(
-        rowIndex,
-        colIndex,
-        newVal,
-        nextIteration
-      )
-    );
-
-    setSeqTerminated(false);
-
-    if (newVal) setActiveCells(true);
-    else
+    //Different logic for handling when user is attempting to apply a pattern
+    if (patternSelected) {
+      setNextIteration(
+        GridFunctions.applyPattern(
+          selectedPattern,
+          rowIndex,
+          colIndex,
+          nextIteration
+        )
+      );
+      setSeqTerminated(false);
       setActiveCells(
         GridFunctions.checkForActiveCells(nextIteration, numRows, numCols)
       );
+    } else {
+      setNextIteration(
+        GridFunctions.setStateOfPosition(
+          rowIndex,
+          colIndex,
+          newVal,
+          nextIteration
+        )
+      );
+
+      setSeqTerminated(false);
+
+      if (newVal) setActiveCells(true);
+      else
+        setActiveCells(
+          GridFunctions.checkForActiveCells(nextIteration, numRows, numCols)
+        );
+    }
   }
 
   function pushCurIterationToStore() {
@@ -180,8 +200,9 @@ export default function Home() {
     setPlaying(false);
   }
 
-  function patternSelectedActions() {
+  function patternSelectedActions(pattern: Patterns) {
     setPatternSelected(true);
+    setSelectedPattern(pattern);
   }
 
   function patternUnselected() {
@@ -194,6 +215,7 @@ export default function Home() {
     numRows: numRows,
     numCols: numCols,
     seqTerminated: seqTerminated,
+    patternSelected: patternSelected,
   };
 
   let controlProps = {
@@ -211,6 +233,7 @@ export default function Home() {
     activeCells: activeCells,
     seqTerminated: seqTerminated,
     patternSelected: patternSelected,
+    selectedPattern: selectedPattern,
     patternSelectedActions,
   };
 
