@@ -28,45 +28,57 @@ export default function Controls(props: ControlProps) {
 
   //Create list of patterns
   let patternList: any[] = [];
-  const patternKeys = Object.keys(Patterns).filter((key) => isNaN(Number(key)));
+  const patternKeys = Object.keys(Patterns)
+    .filter((key) => isNaN(Number(key)))
+    .map((key) => key as keyof typeof patternSquares);
 
   patternKeys.forEach((pattern) => {
+    const patternSquare = patternSquares[pattern];
+    let displayedPattern: any[] = [];
+
+    for (let i = 0; i < patternSquare.size[1]; i++) {
+      let row = [];
+
+      for (let j = 0; j < patternSquare.size[0]; j++) {
+        let squareProps = {
+          squareState: patternSquare.squares.some(
+            (square) => square[0] === i && square[1] === j
+          ),
+          numRows: patternSquare.size[1],
+          numCols: patternSquare.size[0],
+        };
+        row.push(squareProps);
+      }
+      displayedPattern.push(
+        <div
+          className="display-grid-row-wrapper"
+          key={i}
+          style={{ height: `${100 / patternSquare.size[1]}%` }}
+        >
+          {row.map((val, index) => {
+            return <DisplaySquare {...val} key={i + "-" + index} />;
+          })}
+        </div>
+      );
+    }
+
     const selectedClass =
       props.selectedPattern == pattern ? "clicked-button" : "";
     patternList.push(
       <div key={pattern} className="pattern-wrapper">
-        <button
-          onClick={() => props.patternSelectedActions(pattern)}
-          className={"pattern-button " + selectedClass}
-        >
-          <p>{pattern}</p>
-        </button>
+        <div className="pattern-btn-wrapper">
+          <button
+            onClick={() => props.patternSelectedActions(pattern)}
+            className={"pattern-button " + selectedClass}
+          >
+            <p>{pattern}</p>
+          </button>
+        </div>
+
+        <div className="display-grid-wrapper">{displayedPattern}</div>
       </div>
     );
   });
-
-  let displayedPattern: any[] = [];
-  for (let i = 0; i < patternSquares[props.selectedPattern].size[1]; i++) {
-    let row = [];
-
-    for (let j = 0; j < patternSquares[props.selectedPattern].size[0]; j++) {
-      let squareProps = {
-        squareState: patternSquares[props.selectedPattern].squares.some(
-          (square) => square[0] === i && square[1] === j
-        ),
-        numRows: patternSquares[props.selectedPattern].size[1],
-        numCols: patternSquares[props.selectedPattern].size[0],
-      };
-      row.push(squareProps);
-    }
-    displayedPattern.push(
-      <div className="display-grid-wrapper" key={i}>
-        {row.map((val, index) => {
-          return <DisplaySquare {...val} key={i + "-" + index} />;
-        })}
-      </div>
-    );
-  }
 
   return (
     <div className="control-wrapper">
@@ -144,7 +156,7 @@ export default function Controls(props: ControlProps) {
         </div>
         <div className="patterns-wrapper">{patternList}</div>
       </div>
-      <div className="pattern-display-wrapper">{displayedPattern}</div>
+      {/* <div className="pattern-display-wrapper">{displayedPattern}</div> */}
     </div>
   );
 }
