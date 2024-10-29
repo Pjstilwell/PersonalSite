@@ -26,7 +26,7 @@ export default function Home() {
   const [patternSelected, setPatternSelected] = useState(false);
 
   //tracks the selected pattern
-  const [selectedPattern, setSelectedPattern] = useState(Patterns.block);
+  const [selectedPattern, setSelectedPattern] = useState(Patterns.Block);
 
   // Using a ref to always get the latest value of `playing` inside the setTimeout callback
   const playingRef = useRef(playing);

@@ -154,10 +154,10 @@ export default function Controls(props: ControlProps) {
           </div>
         </div>
       </div>
+      <div className="add-patterns-text-wrapper">
+        <p>Add Patterns</p>
+      </div>
       <div className="patterns-settings-wrapper">
-        <div className="add-patterns-text-wrapper">
-          <p>Add Patterns</p>
-        </div>
         <div className="patterns-wrapper">{patternList}</div>
       </div>
     </div>

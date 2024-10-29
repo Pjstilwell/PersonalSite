@@ -1,7 +1,7 @@
 export default function DisplaySquare(props: any) {
   const stateClass = props.squareState ? "square-on" : "square-off";
   const btnStyle = {
-    width: `calc(100% / ${props.numCols})`,
+    width: `calc(90% / ${props.numCols})`,
   };
 
   return (
