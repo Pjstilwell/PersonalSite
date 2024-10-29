@@ -149,6 +149,8 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 15%;
   background-color: $cp3-2;
   color: $cp3-6;
+  display: grid;
+  grid-template-rows: 40% 60%;
 }
 
 .display-square-wrapper {
@@ -156,17 +158,13 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .display-square {
-  border-radius: 1rem;
   width: 100%;
   height: 100%;
   background-color: $cp3-4;
   color: $cp3-6;
-  border-radius: 0.5rem;
-  border-width: 0.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.3rem;
+  border-radius: 0.3rem;
+  border-width: 0.01rem;
+  padding: 0.2rem;
 }
 
 .square-wrapper {
@@ -218,16 +216,18 @@ input[type="number"]::-webkit-outer-spin-button {
 .add-patterns-text-wrapper {
   display: flex;
   justify-content: center;
-  margin: 1rem;
+  // margin: 1rem;
 }
 
 .patterns-wrapper {
-  margin: 1rem;
+  margin: 0rem 1rem;
+  overflow-y: scroll;
+  max-height: 100%;
 }
 
 .pattern-wrapper {
   display: grid;
-  grid-template-columns: 40% 60%;
+  grid-template-columns: 60% 40%;
   margin: 1rem 0.25rem;
   gap: 0.5rem;
 }
@@ -246,6 +246,14 @@ input[type="number"]::-webkit-outer-spin-button {
 .pattern-display-wrapper {
   margin: 1rem;
   background-color: white;
+}
+
+.patterns-settings-wrapper {
+  height: 100%;
+}
+
+.settings-big-wrapper {
+  height: 100%;
 }
 
 #row-para {
