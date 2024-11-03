@@ -140,6 +140,7 @@ input[type="number"]::-webkit-outer-spin-button {
   color: $cp3-6;
   display: grid;
   grid-template-rows: 35% 65%;
+  margin: 0.5rem;
 }
 
 .display-square {
