@@ -91,8 +91,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .home-wrapper {
   width: 100%;
   height: 100%;
-  display: grid;
-  grid-template-columns: 20% 80%;
+  display: flex;
   background-color: $cp3-2;
 }
 
@@ -168,7 +167,7 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0.5rem;
+  margin: 0.5rem 0;
 }
 
 .scrub-wrapper {
@@ -192,10 +191,6 @@ input[type="number"]::-webkit-outer-spin-button {
   grid-template-rows: 2;
 }
 
-.add-patterns-wrapper {
-  margin: 1rem;
-}
-
 .add-patterns-text-wrapper {
   display: flex;
   justify-content: center;
@@ -203,25 +198,15 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .patterns-wrapper {
-  margin: 0rem 1rem;
   overflow-y: auto;
 }
 
-.pattern-wrapper {
-  display: grid;
-  grid-template-columns: 70% 30%;
-  margin: 0.6rem 0rem;
-}
-
-.pattern-btn-wrapper {
-  display: flex;
-  align-items: center;
-  margin: 0rem 0.5rem;
-}
-
 .pattern-button {
-  width: 100%;
-  grid-column: 1;
+  width: -webkit-fill-available;
+  display: grid;
+  grid-template-columns: 60% 40%;
+  min-height: 3.5rem;
+  margin: 0.3rem !important;
 }
 
 .pattern-display-wrapper {
@@ -238,6 +223,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .display-grid-wrapper {
+  height: 100%;
   width: 100%;
   grid-column: 2;
 }
@@ -247,7 +233,6 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .settings-big-wrapper {
-  margin-bottom: 1rem;
   height: 100%;
 }
 
@@ -296,4 +281,8 @@ input[type="number"]::-webkit-outer-spin-button {
   background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
   z-index: 0; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer; /* Add a pointer on hover */
+}
+
+.control-wrapper button {
+  margin: 0 0.3rem;
 }

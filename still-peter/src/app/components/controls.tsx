@@ -63,20 +63,19 @@ export default function Controls(props: ControlProps) {
     }
 
     const selectedClass =
-      props.selectedPattern == pattern ? "clicked-button" : "";
+      props.selectedPattern == pattern && props.patternSelected
+        ? "clicked-button"
+        : "";
     patternList.push(
-      <div key={pattern} className="pattern-wrapper">
-        <div className="pattern-btn-wrapper">
-          <button
-            onClick={() => props.patternSelectedActions(pattern)}
-            className={"pattern-button " + selectedClass}
-          >
-            <p>{pattern}</p>
-          </button>
-        </div>
+      <button
+        key={pattern}
+        onClick={() => props.patternSelectedActions(pattern)}
+        className={"pattern-button " + selectedClass}
+      >
+        <p>{pattern}</p>
 
         <div className="display-grid-wrapper">{displayedPattern}</div>
-      </div>
+      </button>
     );
   });
 
