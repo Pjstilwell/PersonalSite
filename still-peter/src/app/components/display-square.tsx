@@ -5,11 +5,7 @@ export default function DisplaySquare(props: any) {
   };
 
   return (
-    <div
-      className="display-square-wrapper"
-      key={props.squareKey}
-      style={btnStyle}
-    >
+    <div key={props.squareKey} style={btnStyle}>
       <div className={"display-square " + stateClass}></div>
     </div>
   );
