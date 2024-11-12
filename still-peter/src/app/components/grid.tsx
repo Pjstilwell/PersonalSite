@@ -29,6 +29,8 @@ export default function Grid(props: any) {
         squareClicked: props.squareClicked,
         numRows: props.numRows,
         numCols: props.numCols,
+        patternSelected: props.patternSelected,
+        selectedPattern: props.selectedPattern,
       };
       row.push(squareProps);
     }

@@ -1,5 +1,4 @@
-import { patternSquares } from "../resources/pattern-squares";
-import { Patterns } from "../resources/Patterns";
+import { patternGroups, Pattern } from "../resources/pattern-squares";
 import DisplaySquare from "./display-square";
 
 type ControlProps = {
@@ -17,35 +16,46 @@ type ControlProps = {
   activeCells: boolean;
   seqTerminated: boolean;
   patternSelected: boolean;
-  selectedPattern: Patterns;
+  selectedPattern: Pattern;
   patternSelectedActions: Function;
 };
 
 export default function Controls(props: ControlProps) {
   const playClickedClass = props.playing ? "clicked-button" : "";
 
-  const overlay = props.patternSelected ? <div id="overlay"></div> : "";
+  const patternSelectedOverlay = props.patternSelected ? (
+    <div id="overlay"></div>
+  ) : (
+    ""
+  );
 
-  //Create list of patterns
-  let patternList: any[] = [];
-  const patternKeys = Object.keys(Patterns)
-    .filter((key) => isNaN(Number(key)))
-    .map((key) => key as keyof typeof patternSquares);
+  const patternListWrapper: any[] = [];
 
-  patternKeys.forEach((pattern) => {
-    const patternSquare = patternSquares[pattern];
+  for (let group of patternGroups) {
+    //Create list of patterns
+    let patternList: any[] = [];
+    for (let pattern of group.patterns) {
+      patternList.push(createPattern(pattern, false));
+    }
+    patternListWrapper.push(
+      <div>
+        <p className="pattern-group-name">{group.groupName}</p>
+        {patternList}
+      </div>
+    );
+  }
+
+  function createPattern(pattern: Pattern, manuallyDisable: boolean) {
     let displayedPattern: any[] = [];
 
-    for (let i = 0; i < patternSquare.size[1]; i++) {
+    for (let i = 0; i < pattern.size[1]; i++) {
       let row = [];
 
-      for (let j = 0; j < patternSquare.size[0]; j++) {
+      for (let j = 0; j < pattern.size[0]; j++) {
         let squareProps = {
-          squareState: patternSquare.squares.some(
-            (square) => square[0] === i && square[1] === j
-          ),
-          numRows: patternSquare.size[1],
-          numCols: patternSquare.size[0],
+          squareState: pattern.pattern[i][j],
+          numRows: pattern.size[1],
+          numCols: pattern.size[0],
         };
         row.push(squareProps);
       }
@@ -53,7 +63,7 @@ export default function Controls(props: ControlProps) {
         <div
           className="display-grid-row-wrapper"
           key={i}
-          style={{ height: `${100 / patternSquare.size[1]}%` }}
+          style={{ height: `${100 / pattern.size[1]}%` }}
         >
           {row.map((val, index) => {
             return <DisplaySquare {...val} key={i + "-" + index} />;
@@ -66,97 +76,120 @@ export default function Controls(props: ControlProps) {
       props.selectedPattern == pattern && props.patternSelected
         ? "clicked-button"
         : "";
-    patternList.push(
+
+    return (
       <button
-        key={pattern}
+        key={pattern.patternName}
         onClick={() => props.patternSelectedActions(pattern)}
         className={"pattern-button " + selectedClass}
+        disabled={
+          pattern.size[0] > props.numCols ||
+          pattern.size[1] > props.numRows ||
+          manuallyDisable
+        }
       >
-        <p>{pattern}</p>
+        <p>{pattern.patternName}</p>
 
         <div className="display-grid-wrapper">{displayedPattern}</div>
       </button>
     );
-  });
+  }
 
-  return (
-    <div className="control-wrapper">
-      {overlay}
-      <div className="settings-big-wrapper">
-        <div className="title-wrapper">
-          <h1 className="title">GAME OF LIFE</h1>
+  if (props.patternSelected) {
+    let applyingPattern = createPattern(props.selectedPattern, true);
+    return (
+      <div className="add-pattern-wrapper">
+        <h1 className="add-pattern-title">Add Pattern to Grid</h1>
+        <div className="add-pattern-arrow">
+          <span className="material-symbols-outlined">arrow_forward</span>
         </div>
-
-        <div className="scrub-wrapper">
-          <button
-            disabled={props.iterationsLength < 2}
-            onClick={() => props.backClicked()}
-          >
-            <span className="material-symbols-outlined">first_page</span>
+        <div className="applying-pattern-wrapper">{applyingPattern}</div>
+        <div className="cancel-wrap">
+          <button>
+            <span className="material-symbols-outlined">close</span>Cancel
           </button>
-          <button
-            disabled={!props.activeCells || props.seqTerminated}
-            className={playClickedClass}
-            onClick={() => props.togglePlaying()}
-          >
-            <span className="material-symbols-outlined">play_pause</span>
-          </button>
-          <button
-            disabled={!props.activeCells || props.seqTerminated}
-            onClick={() => props.goClicked()}
-          >
-            <span className="material-symbols-outlined">last_page</span>
-          </button>
-        </div>
-        <div className="button-wrapper">
-          <button disabled={props.playing} onClick={() => props.randomise()}>
-            <span className="material-symbols-outlined casino-logo-spacing">
-              casino
-            </span>
-            <p>Randomise</p>
-          </button>
-          <button
-            disabled={!props.activeCells || props.playing}
-            onClick={() => props.clear()}
-          >
-            <span className="material-symbols-outlined casino-logo-spacing">
-              check_box_outline_blank
-            </span>
-            <p>Clear</p>
-          </button>
-        </div>
-
-        <div className="row-col-controls-wrapper">
-          <div className="flexy">
-            <p id="row-para">Rows (1-100):</p>
-          </div>
-          <input
-            id="row-input"
-            type="number"
-            min={0}
-            max={100}
-            value={props.numRows}
-            onChange={(e) => props.numRowsChanged(e.target.value)}
-          ></input>
-          <div className="flexy">
-            <p id="col-para">Columns (1-100):</p>
-          </div>
-          <input
-            id="col-input"
-            type="number"
-            min={0}
-            max={100}
-            value={props.numCols}
-            onChange={(e) => props.numColsChanged(e.target.value)}
-          ></input>
         </div>
       </div>
-      <div className="patterns-settings-wrapper">
-        <div className="add-patterns-text-wrapper">
-          <p>Add Patterns</p>
+    );
+  } else {
+    return (
+      <div className="control-wrapper">
+        <div className="settings-big-wrapper">
+          <div className="title-wrapper">
+            <h1 className="title">GAME OF LIFE</h1>
+          </div>
+
+          <div className="scrub-wrapper">
+            <button
+              disabled={props.iterationsLength < 2}
+              onClick={() => props.backClicked()}
+            >
+              <span className="material-symbols-outlined">first_page</span>
+            </button>
+            <button
+              disabled={!props.activeCells || props.seqTerminated}
+              className={playClickedClass}
+              onClick={() => props.togglePlaying()}
+            >
+              <span className="material-symbols-outlined">play_pause</span>
+            </button>
+            <button
+              disabled={!props.activeCells || props.seqTerminated}
+              onClick={() => props.goClicked()}
+            >
+              <span className="material-symbols-outlined">last_page</span>
+            </button>
+          </div>
+          <div className="button-wrapper">
+            <button disabled={props.playing} onClick={() => props.randomise()}>
+              <span className="material-symbols-outlined casino-logo-spacing">
+                casino
+              </span>
+              <p>Randomise</p>
+            </button>
+            <button
+              disabled={!props.activeCells || props.playing}
+              onClick={() => props.clear()}
+            >
+              <span className="material-symbols-outlined casino-logo-spacing">
+                check_box_outline_blank
+              </span>
+              <p>Clear</p>
+            </button>
+          </div>
+
+          <div className="row-col-controls-wrapper">
+            <div className="flexy">
+              <p id="row-para">Rows (1-100):</p>
+            </div>
+            <input
+              id="row-input"
+              type="number"
+              min={0}
+              max={100}
+              value={props.numRows}
+              onChange={(e) => props.numRowsChanged(e.target.value)}
+            ></input>
+            <div className="flexy">
+              <p id="col-para">Columns (1-100):</p>
+            </div>
+            <input
+              id="col-input"
+              type="number"
+              min={0}
+              max={100}
+              value={props.numCols}
+              onChange={(e) => props.numColsChanged(e.target.value)}
+            ></input>
+          </div>
         </div>
-        <div className="patterns-wrapper">{patternList}</div>
+        <div className="patterns-settings-wrapper">
+          <div className="add-patterns-text-wrapper">
+            <p>Add Patterns</p>
+          </div>
+          <div className="patterns-wrapper">{patternListWrapper}</div>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }

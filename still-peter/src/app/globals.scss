@@ -61,7 +61,7 @@ button:hover:not([disabled]) {
   color: $cp3-1;
 }
 
-button:disabled:not(.display-square) {
+.control-wrapper * button:disabled:not(.display-square) {
   background-color: $cp3-4-dis;
 }
 
@@ -143,6 +143,35 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0.5rem;
 }
 
+.add-pattern-wrapper {
+  min-width: 15rem;
+  width: 15%;
+  background-color: $cp3-2;
+  color: $cp3-6;
+  margin: 0.5rem;
+  padding: 2rem;
+  display: grid;
+  grid-template-rows: 10% 10% 40% 40%;
+}
+
+.add-pattern-arrow {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.add-pattern-title {
+  text-align: center;
+}
+
+.cancel-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  padding-bottom: 3rem;
+  height: 100%;
+}
+
 .display-square {
   width: 100%;
   height: 100%;
@@ -157,11 +186,16 @@ input[type="number"]::-webkit-outer-spin-button {
   height: 100%;
 }
 
-.square-button:not([disabled]) {
+.square-button {
   border-radius: 1.5rem;
   width: 100%;
   height: 100%;
   cursor: pointer;
+}
+
+.square-button:disabled {
+  cursor: default;
+  background-color: $cp3-5;
 }
 
 .button-wrapper {
@@ -231,6 +265,10 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .display-grid-row-wrapper {
   display: flex;
+}
+
+.pattern-group-name {
+  margin-left: 1rem;
 }
 
 .settings-big-wrapper {

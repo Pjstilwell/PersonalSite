@@ -29,11 +29,18 @@ export default function Square(props: any) {
   return (
     <div className="square-wrapper" key={props.squareKey} style={wrapStyle}>
       <button
-        className={"square-button " + stateClass}
+        className={"square-button grid-square " + stateClass}
         style={btnStyle}
         onClick={() => {
           squareClicked();
         }}
+        disabled={
+          props.patternSelected &&
+          (props.squareIndexCol + props.selectedPattern.size[0] >
+            props.numCols ||
+            props.squareIndexRow + props.selectedPattern.size[1] >
+              props.numRows)
+        }
       ></button>
     </div>
   );

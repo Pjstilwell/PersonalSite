@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { GridFunctions } from "../grid-functions";
 import Controls from "./controls";
 import Grid from "./grid";
-import { Patterns } from "../resources/Patterns";
+import { Pattern, patternGroups } from "../resources/pattern-squares";
 
 export default function Home() {
   const [numRows, setNumRows] = useState(10);
@@ -26,7 +26,8 @@ export default function Home() {
   const [patternSelected, setPatternSelected] = useState(false);
 
   //tracks the selected pattern
-  const [selectedPattern, setSelectedPattern] = useState(Patterns.Block);
+  const initialPattern = patternGroups[0].patterns[0];
+  const [selectedPattern, setSelectedPattern] = useState(initialPattern);
 
   // Using a ref to always get the latest value of `playing` inside the setTimeout callback
   const playingRef = useRef(playing);
@@ -57,7 +58,7 @@ export default function Home() {
     if (patternSelected) {
       setNextIteration(
         GridFunctions.applyPattern(
-          selectedPattern,
+          selectedPattern!,
           rowIndex,
           colIndex,
           nextIteration
@@ -200,7 +201,7 @@ export default function Home() {
     setPlaying(false);
   }
 
-  function patternSelectedActions(pattern: Patterns) {
+  function patternSelectedActions(pattern: Pattern) {
     setPatternSelected(true);
     setSelectedPattern(pattern);
   }
@@ -216,6 +217,7 @@ export default function Home() {
     numCols: numCols,
     seqTerminated: seqTerminated,
     patternSelected: patternSelected,
+    selectedPattern: selectedPattern,
   };
 
   let controlProps = {
