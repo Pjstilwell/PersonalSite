@@ -1,12 +1,28 @@
 export default function DisplaySquare(props: any) {
   const stateClass = props.squareState ? "square-on" : "square-off";
   const btnStyle = {
-    width: `calc(90% / ${props.numCols})`,
+    width: `calc(100% / ${props.numCols})`,
   };
+  const childDivStyle = props.applyingPatternStyle
+    ? {
+        borderRadius:
+          props.numRows > 8 || props.numCols > 8 ? "0.3rem" : "1rem",
+        borderWidth:
+          props.numRows > 8 || props.numCols > 8 ? "0.05rem" : "0.2em",
+      }
+    : {
+        borderRadius:
+          props.numRows > 8 || props.numCols > 8 ? "0.1rem" : "0.15rem",
+        borderWidth:
+          props.numRows > 8 || props.numCols > 8 ? "0.05rem" : "0.05rem",
+      };
 
   return (
     <div key={props.squareKey} style={btnStyle}>
-      <div className={"display-square " + stateClass}></div>
+      <div
+        style={childDivStyle}
+        className={"display-square " + stateClass}
+      ></div>
     </div>
   );
 }

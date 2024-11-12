@@ -21,9 +21,25 @@ export default function Square(props: any) {
     width: `calc(100% / ${props.numCols})`,
   };
 
+  let borderWidth;
+  let borderRadius;
+  if (props.numCols + props.numRows > 150) {
+    borderWidth = "0.01rem";
+    borderRadius = "0.01rem";
+  } else if (props.numCols + props.numRows > 100) {
+    borderWidth = "0.05rem";
+    borderRadius = "0.1rem";
+  } else if (props.numCols + props.numRows > 70) {
+    borderWidth = "0.1rem";
+    borderRadius = "0.25rem";
+  } else {
+    borderWidth = "0.2rem";
+    borderRadius = "0.5rem";
+  }
+
   const btnStyle = {
-    borderWidth: props.numCols + props.numRows > 70 ? "0.1rem" : "0.2rem",
-    borderRadius: `${1.5 / ((props.numCols + props.numRows) / 20)}rem`,
+    borderWidth: borderWidth,
+    borderRadius: `${0.5 / ((props.numCols + props.numRows) / 20)}rem`,
   };
 
   return (

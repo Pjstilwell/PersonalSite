@@ -1,3 +1,4 @@
+import { Tooltip } from "@mui/material";
 import { patternGroups, Pattern } from "../resources/pattern-squares";
 import DisplaySquare from "./display-square";
 
@@ -35,7 +36,33 @@ export default function Controls(props: ControlProps) {
     //Create list of patterns
     let patternList: any[] = [];
     for (let pattern of group.patterns) {
-      patternList.push(createPattern(pattern, false));
+      const selectedClass =
+        props.selectedPattern == pattern && props.patternSelected
+          ? "clicked-button"
+          : "";
+
+      const disabled =
+        pattern.size[0] > props.numCols || pattern.size[1] > props.numRows;
+
+      patternList.push(
+        <Tooltip
+          title={disabled ? "Grid too small to insert pattern" : ""}
+          placement="right"
+        >
+          <button
+            key={pattern.patternName}
+            onClick={() => props.patternSelectedActions(pattern)}
+            className={"pattern-button " + selectedClass}
+            disabled={disabled}
+          >
+            <p>{pattern.patternName}</p>
+
+            <div className="display-grid-wrapper">
+              {createPattern(pattern, false)}
+            </div>
+          </button>
+        </Tooltip>
+      );
     }
     patternListWrapper.push(
       <div>
@@ -45,7 +72,7 @@ export default function Controls(props: ControlProps) {
     );
   }
 
-  function createPattern(pattern: Pattern, manuallyDisable: boolean) {
+  function createPattern(pattern: Pattern, applyingPatternStyle: boolean) {
     let displayedPattern: any[] = [];
 
     for (let i = 0; i < pattern.size[1]; i++) {
@@ -56,6 +83,7 @@ export default function Controls(props: ControlProps) {
           squareState: pattern.pattern[i][j],
           numRows: pattern.size[1],
           numCols: pattern.size[0],
+          applyingPatternStyle,
         };
         row.push(squareProps);
       }
@@ -72,27 +100,7 @@ export default function Controls(props: ControlProps) {
       );
     }
 
-    const selectedClass =
-      props.selectedPattern == pattern && props.patternSelected
-        ? "clicked-button"
-        : "";
-
-    return (
-      <button
-        key={pattern.patternName}
-        onClick={() => props.patternSelectedActions(pattern)}
-        className={"pattern-button " + selectedClass}
-        disabled={
-          pattern.size[0] > props.numCols ||
-          pattern.size[1] > props.numRows ||
-          manuallyDisable
-        }
-      >
-        <p>{pattern.patternName}</p>
-
-        <div className="display-grid-wrapper">{displayedPattern}</div>
-      </button>
-    );
+    return displayedPattern;
   }
 
   if (props.patternSelected) {
@@ -103,6 +111,8 @@ export default function Controls(props: ControlProps) {
         <div className="add-pattern-arrow">
           <span className="material-symbols-outlined">arrow_forward</span>
         </div>
+        <h1>Currently Applying:</h1>
+        <h1>{props.selectedPattern.patternName}</h1>
         <div className="applying-pattern-wrapper">{applyingPattern}</div>
         <div className="cancel-wrap">
           <button>
@@ -120,42 +130,55 @@ export default function Controls(props: ControlProps) {
           </div>
 
           <div className="scrub-wrapper">
-            <button
-              disabled={props.iterationsLength < 2}
-              onClick={() => props.backClicked()}
-            >
-              <span className="material-symbols-outlined">first_page</span>
-            </button>
-            <button
-              disabled={!props.activeCells || props.seqTerminated}
-              className={playClickedClass}
-              onClick={() => props.togglePlaying()}
-            >
-              <span className="material-symbols-outlined">play_pause</span>
-            </button>
-            <button
-              disabled={!props.activeCells || props.seqTerminated}
-              onClick={() => props.goClicked()}
-            >
-              <span className="material-symbols-outlined">last_page</span>
-            </button>
+            <Tooltip title={"Back Step"}>
+              <button
+                disabled={props.iterationsLength < 2}
+                onClick={() => props.backClicked()}
+              >
+                <span className="material-symbols-outlined">first_page</span>
+              </button>
+            </Tooltip>
+            <Tooltip title={"Play/Pause"}>
+              <button
+                disabled={!props.activeCells || props.seqTerminated}
+                className={playClickedClass}
+                onClick={() => props.togglePlaying()}
+              >
+                <span className="material-symbols-outlined">play_pause</span>
+              </button>
+            </Tooltip>
+            <Tooltip title={"Next Step"}>
+              <button
+                disabled={!props.activeCells || props.seqTerminated}
+                onClick={() => props.goClicked()}
+              >
+                <span className="material-symbols-outlined">last_page</span>
+              </button>
+            </Tooltip>
           </div>
           <div className="button-wrapper">
-            <button disabled={props.playing} onClick={() => props.randomise()}>
-              <span className="material-symbols-outlined casino-logo-spacing">
-                casino
-              </span>
-              <p>Randomise</p>
-            </button>
-            <button
-              disabled={!props.activeCells || props.playing}
-              onClick={() => props.clear()}
-            >
-              <span className="material-symbols-outlined casino-logo-spacing">
-                check_box_outline_blank
-              </span>
-              <p>Clear</p>
-            </button>
+            <Tooltip title={"Randomise Grid"}>
+              <button
+                disabled={props.playing}
+                onClick={() => props.randomise()}
+              >
+                <span className="material-symbols-outlined casino-logo-spacing">
+                  casino
+                </span>
+                <p>Randomise</p>
+              </button>
+            </Tooltip>
+            <Tooltip title={"Empty Grid"}>
+              <button
+                disabled={!props.activeCells || props.playing}
+                onClick={() => props.clear()}
+              >
+                <span className="material-symbols-outlined casino-logo-spacing">
+                  check_box_outline_blank
+                </span>
+                <p>Clear</p>
+              </button>
+            </Tooltip>
           </div>
 
           <div className="row-col-controls-wrapper">

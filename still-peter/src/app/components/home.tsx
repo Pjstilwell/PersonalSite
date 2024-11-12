@@ -6,8 +6,8 @@ import Grid from "./grid";
 import { Pattern, patternGroups } from "../resources/pattern-squares";
 
 export default function Home() {
-  const [numRows, setNumRows] = useState(10);
-  const [numCols, setNumCols] = useState(10);
+  const [numRows, setNumRows] = useState(50);
+  const [numCols, setNumCols] = useState(50);
   const [nextIteration, setNextIteration] = useState(
     GridFunctions.initialiseZeroArray(numRows, numCols)
   );

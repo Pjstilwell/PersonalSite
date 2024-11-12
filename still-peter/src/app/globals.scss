@@ -149,9 +149,10 @@ input[type="number"]::-webkit-outer-spin-button {
   background-color: $cp3-2;
   color: $cp3-6;
   margin: 0.5rem;
-  padding: 2rem;
+  padding: 1rem;
   display: grid;
-  grid-template-rows: 10% 10% 40% 40%;
+  grid-template-rows: 10% 10% 10% 10% 40% 20%;
+  text-align: center;
 }
 
 .add-pattern-arrow {
@@ -175,6 +176,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .display-square {
   width: 100%;
   height: 100%;
+  min-height: 0.5rem;
   background-color: $cp3-4;
   color: $cp3-6;
   border-radius: 0.3rem;
@@ -230,6 +232,9 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
   justify-content: center;
   margin: 0.5rem;
+  & p {
+    font-size: larger;
+  }
 }
 
 .patterns-wrapper {
@@ -242,6 +247,17 @@ input[type="number"]::-webkit-outer-spin-button {
   grid-template-columns: 60% 40%;
   min-height: 3.5rem;
   margin: 0.3rem !important;
+}
+
+.applying-pattern-btn-text {
+  width: 100%;
+  text-align: center;
+}
+
+.applying-pattern-wrapper {
+  border-radius: 0.5rem;
+  border-color: $cp3-5;
+  border-width: 0.5rem;
 }
 
 .pattern-display-wrapper {
@@ -261,6 +277,9 @@ input[type="number"]::-webkit-outer-spin-button {
   height: 100%;
   width: 100%;
   grid-column: 2;
+  border-radius: 0.2rem;
+  border-color: $cp3-6;
+  border-width: 0.2rem;
 }
 
 .display-grid-row-wrapper {
@@ -268,6 +287,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .pattern-group-name {
+  margin-top: 1rem;
   margin-left: 1rem;
 }
 
