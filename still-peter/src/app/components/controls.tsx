@@ -2,40 +2,34 @@ import { Tooltip } from "@mui/material";
 import { patternGroups, Pattern } from "../resources/pattern-squares";
 import DisplaySquare from "./display-square";
 
-type ControlProps = {
-  goClicked: Function;
-  backClicked: Function;
+export type ControlProps = {
+  goClicked: () => void;
+  backClicked: () => void;
   numRows: number;
-  numRowsChanged: Function;
+  numRowsChanged: (num: string) => void;
   numCols: number;
-  numColsChanged: Function;
-  randomise: Function;
-  clear: Function;
+  numColsChanged: (num: string) => void;
+  randomise: () => void;
+  clear: () => void;
   playing: boolean;
-  togglePlaying: Function;
+  togglePlaying: () => void;
   iterationsLength: number;
   activeCells: boolean;
   seqTerminated: boolean;
   patternSelected: boolean;
   selectedPattern: Pattern;
-  patternSelectedActions: Function;
+  patternSelectedActions: (pattern: Pattern) => void;
 };
 
 export default function Controls(props: ControlProps) {
   const playClickedClass = props.playing ? "clicked-button" : "";
 
-  const patternSelectedOverlay = props.patternSelected ? (
-    <div id="overlay"></div>
-  ) : (
-    ""
-  );
+  const patternListWrapper: React.ReactNode[] = [];
 
-  const patternListWrapper: any[] = [];
-
-  for (let group of patternGroups) {
+  for (const group of patternGroups) {
     //Create list of patterns
-    let patternList: any[] = [];
-    for (let pattern of group.patterns) {
+    const patternList: React.ReactNode[] = [];
+    for (const pattern of group.patterns) {
       const selectedClass =
         props.selectedPattern == pattern && props.patternSelected
           ? "clicked-button"
@@ -65,7 +59,7 @@ export default function Controls(props: ControlProps) {
       );
     }
     patternListWrapper.push(
-      <div>
+      <div key={group.groupName + "wrap"}>
         <p className="pattern-group-name">{group.groupName}</p>
         {patternList}
       </div>
@@ -73,13 +67,13 @@ export default function Controls(props: ControlProps) {
   }
 
   function createPattern(pattern: Pattern, applyingPatternStyle: boolean) {
-    let displayedPattern: any[] = [];
+    const displayedPattern: React.ReactNode[] = [];
 
     for (let i = 0; i < pattern.size[1]; i++) {
-      let row = [];
+      const row = [];
 
       for (let j = 0; j < pattern.size[0]; j++) {
-        let squareProps = {
+        const squareProps = {
           squareState: pattern.pattern[i][j],
           numRows: pattern.size[1],
           numCols: pattern.size[0],
@@ -104,7 +98,7 @@ export default function Controls(props: ControlProps) {
   }
 
   if (props.patternSelected) {
-    let applyingPattern = createPattern(props.selectedPattern, true);
+    const applyingPattern = createPattern(props.selectedPattern, true);
     return (
       <div className="add-pattern-wrapper">
         <h1 className="add-pattern-title">Add Pattern to Grid</h1>

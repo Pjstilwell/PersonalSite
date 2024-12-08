@@ -1,7 +1,7 @@
-import { Pattern, patternGroups } from "./resources/pattern-squares";
+import { Pattern } from "./resources/pattern-squares";
 
 export class GridFunctions {
-  public static initialiseZeroArray(numRows: any, numCols: any) {
+  public static initialiseZeroArray(numRows: number, numCols: number) {
     return this.createIterationArray(numRows, numCols);
   }
 
@@ -9,7 +9,7 @@ export class GridFunctions {
     numRows: number,
     numCols: number
   ): boolean[][] {
-    let iteration: boolean[][] = [];
+    const iteration: boolean[][] = [];
 
     for (let i = 0; i < numRows; i++) {
       iteration[i] = Array(numCols).fill(false);
@@ -19,8 +19,8 @@ export class GridFunctions {
   }
 
   public static initialiseIterationStore(
-    numRows: any,
-    numCols: any
+    numRows: number,
+    numCols: number
   ): boolean[][][] {
     return [this.createIterationArray(numRows, numCols)];
   }
@@ -41,7 +41,7 @@ export class GridFunctions {
     numCols: number
   ): boolean[][] {
     const ci = this.takeMatrixCopy(currentIteration);
-    let nextIteration = this.takeMatrixCopy(currentIteration);
+    const nextIteration = this.takeMatrixCopy(currentIteration);
 
     /**
      * Any live cell with fewer than two live neighbours dies, as if by underpopulation.
@@ -76,7 +76,7 @@ export class GridFunctions {
   }
 
   public static takeMatrixCopy(input: boolean[][]): boolean[][] {
-    let output: boolean[][] = [];
+    const output: boolean[][] = [];
 
     for (let i = 0; i < input.length; i++) {
       output[i] = [];
@@ -92,7 +92,7 @@ export class GridFunctions {
     numRows: number,
     numCols: number
   ): boolean[][] {
-    let iteration: boolean[][] = [];
+    const iteration: boolean[][] = [];
 
     for (let i = 0; i < numRows; i++) {
       iteration[i] = [];

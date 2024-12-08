@@ -1,4 +1,11 @@
-export default function DisplaySquare(props: any) {
+type DisplaySquareProps = {
+  squareState: boolean;
+  numRows: number;
+  numCols: number;
+  applyingPatternStyle: boolean;
+};
+
+export default function DisplaySquare(props: DisplaySquareProps) {
   const stateClass = props.squareState ? "square-on" : "square-off";
   const btnStyle = {
     width: `calc(100% / ${props.numCols})`,
@@ -18,7 +25,7 @@ export default function DisplaySquare(props: any) {
       };
 
   return (
-    <div key={props.squareKey} style={btnStyle}>
+    <div style={btnStyle}>
       <div
         style={childDivStyle}
         className={"display-square " + stateClass}

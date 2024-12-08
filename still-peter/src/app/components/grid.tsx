@@ -1,7 +1,18 @@
+import { Pattern } from "../resources/pattern-squares";
 import Square from "./square";
 
-export default function Grid(props: any) {
-  let iteration = props.iteration;
+type GridProps = {
+  iteration: boolean[][];
+  squareClicked: (rowIndex: number, colIndex: number, newVal: boolean) => void;
+  numRows: number;
+  numCols: number;
+  seqTerminated: boolean;
+  patternSelected: boolean;
+  selectedPattern: Pattern;
+};
+
+export default function Grid(props: GridProps) {
+  const iteration = props.iteration;
   const seqTermClass = props.seqTerminated ? "flash-terminated" : "";
 
   // Add defensive checks
@@ -14,14 +25,14 @@ export default function Grid(props: any) {
     return <div>Loading...</div>;
   }
 
-  let rows = [];
+  const rows = [];
   for (let i = 0; i < props.numRows; i++) {
-    let row = [];
+    const row = [];
 
     //for every element in numCols create a Square in the current row,
     //give it a unique key
     for (let j = 0; j < props.numCols; j++) {
-      let squareProps = {
+      const squareProps = {
         squareKey: i + "-" + j,
         stateInput: iteration[i][j],
         squareIndexRow: i,

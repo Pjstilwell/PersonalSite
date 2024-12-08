@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { GridFunctions } from "../grid-functions";
-import Controls from "./controls";
+import Controls, { ControlProps } from "./controls";
 import Grid from "./grid";
 import { Pattern, patternGroups } from "../resources/pattern-squares";
 
@@ -90,7 +90,7 @@ export default function Home() {
 
   function pushCurIterationToStore() {
     //push current iteration into store
-    let curIterationStore = iterationStore;
+    const curIterationStore = iterationStore;
     const curIteration = nextIteration;
     curIterationStore.push(curIteration);
     setIterationStore(curIterationStore);
@@ -98,7 +98,7 @@ export default function Home() {
 
   function goClicked() {
     pushCurIterationToStore();
-    let newIteration = GridFunctions.calculateNextIteration(
+    const newIteration = GridFunctions.calculateNextIteration(
       nextIteration,
       numRows,
       numCols
@@ -126,7 +126,7 @@ export default function Home() {
   }
 
   function backClicked() {
-    let newIteration = iterationStore.pop()!;
+    const newIteration = iterationStore.pop()!;
     setNextIteration(newIteration);
 
     setActiveCells(
@@ -162,7 +162,7 @@ export default function Home() {
 
   function randomise() {
     //randomise grid
-    let newIteration = GridFunctions.randomiseIteration(numRows, numCols);
+    const newIteration = GridFunctions.randomiseIteration(numRows, numCols);
     setNextIteration(newIteration);
 
     //TODO: look into bug that store isn't clearing?
@@ -183,7 +183,7 @@ export default function Home() {
     setIterationStore(GridFunctions.initialiseIterationStore(numRows, numCols));
 
     //clean grid
-    let newIteration = GridFunctions.createIterationArray(numRows, numCols);
+    const newIteration = GridFunctions.createIterationArray(numRows, numCols);
     setNextIteration(newIteration);
 
     setActiveCells(false);
@@ -191,7 +191,7 @@ export default function Home() {
   }
 
   function checkIfSequenceTerminated(m1: boolean[][], m2: boolean[][]) {
-    let same = (m1: boolean[][], m2: boolean[][]) =>
+    const same = (m1: boolean[][], m2: boolean[][]) =>
       m1.flat().every((val, ind) => val === m2.flat()[ind]);
 
     setSeqTerminated(same(m1, m2));
@@ -210,7 +210,7 @@ export default function Home() {
     if (patternSelected) setPatternSelected(false);
   }
 
-  let props = {
+  const props = {
     iteration: nextIteration,
     squareClicked,
     numRows: numRows,
@@ -220,7 +220,7 @@ export default function Home() {
     selectedPattern: selectedPattern,
   };
 
-  let controlProps = {
+  const controlProps: ControlProps = {
     goClicked,
     backClicked,
     numRows: numRows,
