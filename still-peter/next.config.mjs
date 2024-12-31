@@ -1,7 +1,12 @@
-const isProduction = process.env.NODE_ENV === "production";
-
-export default {
-  output: "export", // Enables static export
-  basePath: isProduction ? "/PersonalSite" : "", // Use base path only in production
-  assetPrefix: isProduction ? "/PersonalSite/" : "", // Use asset prefix only in production
+const isProd = process.env.NODE_ENV === "production";
+const nextConfig = {
+  reactStrictMode: true,
+  images: {
+    unoptimized: true, // Disable default image optimization
+  },
+  assetPrefix: isProd ? "/PersonalSite/" : "",
+  basePath: isProd ? "/PersonalSite" : "",
+  output: "export",
 };
+
+export default nextConfig;
