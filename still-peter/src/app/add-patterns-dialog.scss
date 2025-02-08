@@ -1,0 +1,35 @@
+@import "./theme.scss";
+
+.dialog-title {
+  text-align: center;
+  margin-right: 5rem;
+}
+
+.dialog-wrapper {
+  display: grid;
+  grid-template-rows: 2;
+  gap: 1rem;
+  margin: 1rem;
+}
+
+.dialog-title-wrapper {
+  display: flex;
+  align-items: center;
+  grid-row: 1;
+}
+
+.dialog-content {
+  grid-row: 2;
+}
+
+.patterns-settings-wrapper {
+  border-radius: 0.5rem;
+  border-color: $cp3-5;
+  border-width: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.patterns-wrapper {
+  overflow-y: auto;
+}

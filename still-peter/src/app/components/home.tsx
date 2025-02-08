@@ -2,6 +2,9 @@
 import { useEffect, useRef, useState } from "react";
 import { GridFunctions } from "../grid-functions";
 import Controls, { ControlProps } from "./controls";
+import AddPatternsDialog, {
+  AddPatternsDialogProps,
+} from "./add-patterns-dialog";
 import Grid from "./grid";
 import { Pattern, patternGroups } from "../resources/pattern-squares";
 
@@ -28,6 +31,9 @@ export default function Home() {
   //tracks the selected pattern
   const initialPattern = patternGroups[0].patterns[0];
   const [selectedPattern, setSelectedPattern] = useState(initialPattern);
+
+  //Tracks Pattern Dialog Open
+  const [patternsDialogOpen, setPatternsDialogOpen] = useState(false);
 
   // Using a ref to always get the latest value of `playing` inside the setTimeout callback
   const playingRef = useRef(playing);
@@ -204,10 +210,16 @@ export default function Home() {
   function patternSelectedActions(pattern: Pattern) {
     setPatternSelected(true);
     setSelectedPattern(pattern);
+    togglePatternsDialog();
   }
 
   function patternUnselected() {
     if (patternSelected) setPatternSelected(false);
+  }
+
+  function togglePatternsDialog() {
+    const dialogOpen = patternsDialogOpen;
+    setPatternsDialogOpen(!dialogOpen);
   }
 
   const props = {
@@ -237,6 +249,17 @@ export default function Home() {
     patternSelected: patternSelected,
     selectedPattern: selectedPattern,
     patternSelectedActions,
+    openPatternsDialog: togglePatternsDialog,
+  };
+
+  const addPatternsDialogProps: AddPatternsDialogProps = {
+    patternsDialogOpen: patternsDialogOpen,
+    openPatternsDialog: togglePatternsDialog,
+    numRows: numRows,
+    numCols: numCols,
+    patternSelected: patternSelected,
+    selectedPattern: selectedPattern,
+    patternSelectedActions,
   };
 
   return (
@@ -248,6 +271,7 @@ export default function Home() {
       ) : (
         <div></div>
       )}
+      <AddPatternsDialog {...addPatternsDialogProps}></AddPatternsDialog>
     </div>
   );
 }
