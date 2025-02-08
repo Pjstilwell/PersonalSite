@@ -7,6 +7,7 @@ import AddPatternsDialog, {
 } from "./add-patterns-dialog";
 import Grid from "./grid";
 import { Pattern, patternGroups } from "../resources/pattern-squares";
+import InfoDialog from "./info-dialog";
 
 export default function Home() {
   const [numRows, setNumRows] = useState(50);
@@ -34,6 +35,9 @@ export default function Home() {
 
   //Tracks Pattern Dialog Open
   const [patternsDialogOpen, setPatternsDialogOpen] = useState(false);
+
+  //Tracks Info Dialog Open
+  const [infoDialogOpen, setInfoDialogOpen] = useState(false);
 
   // Using a ref to always get the latest value of `playing` inside the setTimeout callback
   const playingRef = useRef(playing);
@@ -222,6 +226,11 @@ export default function Home() {
     setPatternsDialogOpen(!dialogOpen);
   }
 
+  function toggleInfoDialog() {
+    const dialogOpen = infoDialogOpen;
+    setInfoDialogOpen(!dialogOpen);
+  }
+
   const props = {
     iteration: nextIteration,
     squareClicked,
@@ -250,6 +259,7 @@ export default function Home() {
     selectedPattern: selectedPattern,
     patternSelectedActions,
     openPatternsDialog: togglePatternsDialog,
+    openInfoDialog: toggleInfoDialog,
   };
 
   const addPatternsDialogProps: AddPatternsDialogProps = {
@@ -272,6 +282,10 @@ export default function Home() {
         <div></div>
       )}
       <AddPatternsDialog {...addPatternsDialogProps}></AddPatternsDialog>
+      <InfoDialog
+        open={infoDialogOpen}
+        triggerOpen={() => toggleInfoDialog()}
+      ></InfoDialog>
     </div>
   );
 }

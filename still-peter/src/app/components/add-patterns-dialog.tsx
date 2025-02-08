@@ -48,7 +48,7 @@ export default function AddPatternsDialog(props: AddPatternsDialogProps) {
       );
     }
     patternListWrapper.push(
-      <div key={group.groupName + "wrap"}>
+      <div key={group.groupName + "wrap"} className="pattern-group-wrapper">
         <p className="pattern-group-name">{group.groupName}</p>
         {patternList}
       </div>
@@ -87,7 +87,7 @@ export default function AddPatternsDialog(props: AddPatternsDialogProps) {
   }
 
   return (
-    <Dialog open={props.patternsDialogOpen}>
+    <Dialog open={props.patternsDialogOpen} className="dialog-style">
       <div className="dialog-wrapper">
         <div className="dialog-title-wrapper">
           <h1 className="dialog-title">Add Patterns</h1>

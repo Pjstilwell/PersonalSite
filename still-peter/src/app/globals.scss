@@ -206,23 +206,6 @@ input[type="number"]::-webkit-outer-spin-button {
   grid-template-rows: 2;
 }
 
-.add-patterns-text-wrapper {
-  display: flex;
-  justify-content: center;
-  margin: 0.5rem;
-  & p {
-    font-size: larger;
-  }
-}
-
-.pattern-button {
-  width: -webkit-fill-available;
-  display: grid;
-  grid-template-columns: 60% 40%;
-  min-height: 3.5rem;
-  margin: 0.3rem !important;
-}
-
 .applying-pattern-btn-text {
   width: 100%;
   text-align: center;
@@ -250,11 +233,6 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .display-grid-row-wrapper {
   display: flex;
-}
-
-.pattern-group-name {
-  margin-top: 1rem;
-  margin-left: 1rem;
 }
 
 #row-para {

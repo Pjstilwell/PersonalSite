@@ -1,4 +1,4 @@
-import { Tooltip } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import DisplaySquare from "./display-square";
 import { Pattern } from "../resources/pattern-squares";
 
@@ -20,6 +20,7 @@ export type ControlProps = {
   selectedPattern: Pattern;
   patternSelectedActions: (pattern: Pattern) => void;
   openPatternsDialog: () => void;
+  openInfoDialog: () => void;
 };
 
 export default function Controls(props: ControlProps) {
@@ -77,6 +78,11 @@ export default function Controls(props: ControlProps) {
   } else {
     return (
       <div className="control-wrapper">
+        <Tooltip title="Info">
+          <button onClick={() => props.openInfoDialog()}>
+            <span className="material-symbols-outlined">info</span>
+          </button>
+        </Tooltip>
         <div className="title-wrapper">
           <h1 className="title">GAME OF LIFE</h1>
         </div>
@@ -155,12 +161,14 @@ export default function Controls(props: ControlProps) {
           ></input>
         </div>
         <div className="button-wrapper">
-          <button onClick={() => props.openPatternsDialog()}>
-            <span className="material-symbols-outlined casino-logo-spacing">
-              rocket_launch
-            </span>
-            Add Patterns
-          </button>
+          <Tooltip title="Pick a pattern to add to the grid">
+            <button onClick={() => props.openPatternsDialog()}>
+              <span className="material-symbols-outlined casino-logo-spacing">
+                rocket_launch
+              </span>
+              Add Patterns
+            </button>
+          </Tooltip>
         </div>
       </div>
     );

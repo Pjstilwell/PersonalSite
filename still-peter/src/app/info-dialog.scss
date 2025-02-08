@@ -1,0 +1,48 @@
+.dialog-title {
+  text-align: center;
+  margin-right: 5rem;
+}
+
+.dialog-wrapper {
+  display: grid;
+  grid-template-rows: 2;
+  gap: 1rem;
+  margin: 1rem;
+}
+
+.dialog-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  grid-row: 1;
+}
+
+.i-dialog-content {
+  grid-row: 2;
+}
+
+a {
+  color: blue;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 3;
+}
+
+.back-button {
+  grid-column: 1;
+}
+
+.content-col {
+  grid-column: 2;
+  margin: 0rem 1rem;
+}
+
+.forward-button {
+  grid-column: 3;
+}
+
+.stepper-wrapper {
+  margin: 1rem;
+}
