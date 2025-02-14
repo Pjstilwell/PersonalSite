@@ -1,3 +1,5 @@
+@import "./theme.scss";
+
 .dialog-title {
   text-align: center;
   margin-right: 5rem;
@@ -36,7 +38,7 @@ a {
 
 .content-col {
   grid-column: 2;
-  margin: 0rem 1rem;
+  margin: 0rem 0.25rem;
 }
 
 .forward-button {
@@ -45,4 +47,73 @@ a {
 
 .stepper-wrapper {
   margin: 1rem;
+}
+
+.instruction-grid {
+  display: grid;
+  gap: 0.25rem;
+  background-color: lightgrey;
+  grid-template-columns: 6fr 1fr;
+  overflow-y: auto;
+  max-height: 50vh;
+  border-radius: 0.5rem;
+  border-width: 0.25rem;
+}
+
+.instruction-grid > div,
+.instruction-grid > p {
+  background-color: white;
+}
+
+.instruction-grid > button,
+input {
+  width: fit-content;
+  height: fit-content;
+}
+
+.info-input {
+  width: 3rem;
+}
+
+.row-col-controls-wrapper-info {
+  display: grid;
+}
+
+.flexy-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scrub-wrapper-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dead {
+  background-color: white;
+  color: black;
+  margin-left: 0.2rem;
+}
+
+.info-page-wrapper {
+  width: 100%;
+  height: 3rem;
+  margin: 0.2rem;
+}
+
+.square-button-info {
+  border-radius: 0.2rem;
+  width: 100%;
+  height: 100%;
+}
+
+#info-1-1 {
+  background-color: $cp3-2;
+}
+
+.css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root.Mui-active,
+.css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed {
+  color: $cp3-2;
 }

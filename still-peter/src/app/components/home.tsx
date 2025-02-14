@@ -239,6 +239,7 @@ export default function Home() {
     seqTerminated: seqTerminated,
     patternSelected: patternSelected,
     selectedPattern: selectedPattern,
+    infoDialog: false,
   };
 
   const controlProps: ControlProps = {

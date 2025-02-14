@@ -3,12 +3,13 @@ import Square from "./square";
 
 type GridProps = {
   iteration: boolean[][];
-  squareClicked: (rowIndex: number, colIndex: number, newVal: boolean) => void;
+  squareClicked?: (rowIndex: number, colIndex: number, newVal: boolean) => void;
   numRows: number;
   numCols: number;
-  seqTerminated: boolean;
-  patternSelected: boolean;
-  selectedPattern: Pattern;
+  seqTerminated?: boolean;
+  patternSelected?: boolean;
+  selectedPattern?: Pattern;
+  infoDialog: boolean;
 };
 
 export default function Grid(props: GridProps) {
@@ -42,6 +43,7 @@ export default function Grid(props: GridProps) {
         numCols: props.numCols,
         patternSelected: props.patternSelected,
         selectedPattern: props.selectedPattern,
+        infoDialog: props.infoDialog,
       };
       row.push(squareProps);
     }
@@ -58,5 +60,9 @@ export default function Grid(props: GridProps) {
     );
   }
 
-  return <div className={"page-wrapper " + seqTermClass}>{rows}</div>;
+  const wrapperClass = props.infoDialog
+    ? "info-page-wrapper "
+    : "page-wrapper ";
+
+  return <div className={wrapperClass + seqTermClass}>{rows}</div>;
 }

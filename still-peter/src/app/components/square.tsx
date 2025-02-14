@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import { Pattern } from "../resources/pattern-squares";
 
 type SquareProps = {
+  squareKey: string;
   stateInput: boolean;
   squareIndexRow: number;
   squareIndexCol: number;
-  squareClicked: (rowIndex: number, colIndex: number, newVal: boolean) => void;
+  squareClicked?: (rowIndex: number, colIndex: number, newVal: boolean) => void;
   numRows: number;
   numCols: number;
-  patternSelected: boolean;
-  selectedPattern: Pattern;
+  patternSelected?: boolean;
+  selectedPattern?: Pattern;
+  infoDialog: boolean;
 };
 
 export default function Square(props: SquareProps) {
@@ -24,7 +26,8 @@ export default function Square(props: SquareProps) {
     setSquareState(newVal);
 
     //tell Home
-    props.squareClicked(props.squareIndexRow, props.squareIndexCol, newVal);
+    if (props.squareClicked)
+      props.squareClicked(props.squareIndexRow, props.squareIndexCol, newVal);
   }
 
   const stateClass = squareState ? "square-on" : "square-off";
@@ -45,25 +48,46 @@ export default function Square(props: SquareProps) {
   }
 
   const btnStyle = {
-    borderWidth: borderWidth,
-    borderRadius: `${0.5 / ((props.numCols + props.numRows) / 20)}rem`,
+    borderWidth: props.infoDialog ? "0.1rem" : borderWidth,
+    borderRadius: props.infoDialog
+      ? "0.1rem"
+      : `${0.5 / ((props.numCols + props.numRows) / 20)}rem`,
   };
 
-  return (
-    <div className="square-wrapper" style={wrapStyle}>
-      <button
-        className={"square-button grid-square " + stateClass}
-        style={btnStyle}
-        onClick={() => {
-          squareClicked();
-        }}
-        disabled={
-          props.patternSelected &&
+  function checkDisabled(): boolean {
+    if (props.selectedPattern != undefined) {
+      return (
+        (props.patternSelected &&
           (props.squareIndexCol + props.selectedPattern.size[0] >
             props.numCols ||
             props.squareIndexRow + props.selectedPattern.size[1] >
-              props.numRows)
-        }
+              props.numRows)) ??
+        false
+      );
+    } else return true;
+  }
+
+  const buttonClass = props.infoDialog
+    ? "square-button-info "
+    : "square-button ";
+
+  return (
+    <div
+      className="square-wrapper"
+      style={wrapStyle}
+      key={props.squareKey + "-wrap"}
+    >
+      <button
+        id={props.infoDialog ? "info-" + props.squareKey : props.squareKey}
+        key={props.squareKey}
+        className={buttonClass + stateClass}
+        style={btnStyle}
+        onClick={() => {
+          if (squareClicked() != undefined) {
+            squareClicked();
+          }
+        }}
+        disabled={checkDisabled()}
       ></button>
     </div>
   );
