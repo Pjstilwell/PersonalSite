@@ -27,16 +27,33 @@ export default function AddPatternsDialog(props: AddPatternsDialogProps) {
       const disabled =
         pattern.size[0] > props.numCols || pattern.size[1] > props.numRows;
 
-      patternList.push(
-        <Tooltip
-          title={disabled ? "Grid too small to insert pattern" : ""}
-          placement="right"
-        >
+      if (disabled) {
+        patternList.push(
+          <Tooltip
+            title="Grid too small to insert pattern"
+            placement="right"
+            key={"tt-" + pattern.patternName}
+          >
+            <span>
+              <button
+                key={pattern.patternName}
+                className={"pattern-button " + selectedClass}
+              >
+                <p>{pattern.patternName}</p>
+
+                <div className="display-grid-wrapper">
+                  {createPattern(pattern, false)}
+                </div>
+              </button>
+            </span>
+          </Tooltip>
+        );
+      } else {
+        patternList.push(
           <button
             key={pattern.patternName}
             onClick={() => props.patternSelectedActions(pattern)}
             className={"pattern-button " + selectedClass}
-            disabled={disabled}
           >
             <p>{pattern.patternName}</p>
 
@@ -44,8 +61,8 @@ export default function AddPatternsDialog(props: AddPatternsDialogProps) {
               {createPattern(pattern, false)}
             </div>
           </button>
-        </Tooltip>
-      );
+        );
+      }
     }
     patternListWrapper.push(
       <div key={group.groupName + "wrap"} className="pattern-group-wrapper">

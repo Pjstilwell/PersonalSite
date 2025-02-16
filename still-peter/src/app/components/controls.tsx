@@ -93,50 +93,63 @@ export default function Controls(props: ControlProps) {
 
         <div className="scrub-wrapper">
           <Tooltip title={"Back Step"}>
-            <button
-              disabled={props.iterationsLength < 2}
-              onClick={() => props.backClicked()}
-            >
-              <span className="material-symbols-outlined">first_page</span>
-            </button>
+            <span>
+              <button
+                disabled={props.iterationsLength < 2}
+                onClick={() => props.backClicked()}
+              >
+                <span className="material-symbols-outlined">first_page</span>
+              </button>
+            </span>
           </Tooltip>
           <Tooltip title={"Play/Pause"}>
-            <button
-              disabled={!props.activeCells || props.seqTerminated}
-              className={playClickedClass}
-              onClick={() => props.togglePlaying()}
-            >
-              <span className="material-symbols-outlined">play_pause</span>
-            </button>
+            <span>
+              <button
+                disabled={!props.activeCells || props.seqTerminated}
+                className={playClickedClass}
+                onClick={() => props.togglePlaying()}
+              >
+                <span className="material-symbols-outlined">play_pause</span>
+              </button>
+            </span>
           </Tooltip>
           <Tooltip title={"Next Step"}>
-            <button
-              disabled={!props.activeCells || props.seqTerminated}
-              onClick={() => props.goClicked()}
-            >
-              <span className="material-symbols-outlined">last_page</span>
-            </button>
+            <span>
+              <button
+                disabled={!props.activeCells || props.seqTerminated}
+                onClick={() => props.goClicked()}
+              >
+                <span className="material-symbols-outlined">last_page</span>
+              </button>
+            </span>
           </Tooltip>
         </div>
         <div className="button-wrapper">
           <Tooltip title={"Randomise Grid"}>
-            <button disabled={props.playing} onClick={() => props.randomise()}>
-              <span className="material-symbols-outlined casino-logo-spacing">
-                casino
-              </span>
-              <p>Randomise</p>
-            </button>
+            <span>
+              <button
+                disabled={props.playing}
+                onClick={() => props.randomise()}
+              >
+                <span className="material-symbols-outlined casino-logo-spacing">
+                  casino
+                </span>
+                <p>Randomise</p>
+              </button>
+            </span>
           </Tooltip>
           <Tooltip title={"Empty Grid"}>
-            <button
-              disabled={!props.activeCells || props.playing}
-              onClick={() => props.clear()}
-            >
-              <span className="material-symbols-outlined casino-logo-spacing">
-                check_box_outline_blank
-              </span>
-              <p>Clear</p>
-            </button>
+            <span>
+              <button
+                disabled={!props.activeCells || props.playing}
+                onClick={() => props.clear()}
+              >
+                <span className="material-symbols-outlined casino-logo-spacing">
+                  check_box_outline_blank
+                </span>
+                <p>Clear</p>
+              </button>
+            </span>
           </Tooltip>
         </div>
 
