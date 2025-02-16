@@ -39,6 +39,9 @@ export default function Home() {
   //Tracks Info Dialog Open
   const [infoDialogOpen, setInfoDialogOpen] = useState(false);
 
+  //Option to terminate sequence if repeating
+  const [terminateSequence, setTerminateSequence] = useState(false);
+
   // Using a ref to always get the latest value of `playing` inside the setTimeout callback
   const playingRef = useRef(playing);
   playingRef.current = playing;
@@ -115,14 +118,19 @@ export default function Home() {
     );
 
     //Check for termination against previous 2 iterations
-    checkIfSequenceTerminated(
-      newIteration,
-      iterationStore[iterationStore.length - 1]
-    );
-    checkIfSequenceTerminated(
-      newIteration,
-      iterationStore[iterationStore.length - 2]
-    );
+    if (
+      terminateSequence &&
+      (checkIfSequenceTerminated(
+        newIteration,
+        iterationStore[iterationStore.length - 1]
+      ) ||
+        checkIfSequenceTerminated(
+          newIteration,
+          iterationStore[iterationStore.length - 2]
+        ))
+    ) {
+      setSeqTerminated(true);
+    }
 
     //sequence terminated?
     if (seqTerminated) {
@@ -200,11 +208,16 @@ export default function Home() {
     setSeqTerminated(false);
   }
 
+  /**
+   * Checks if the two iterations are equal by checking each element
+   * @param m1 Iteration 1
+   * @param m2 Iteration 2
+   */
   function checkIfSequenceTerminated(m1: boolean[][], m2: boolean[][]) {
     const same = (m1: boolean[][], m2: boolean[][]) =>
       m1.flat().every((val, ind) => val === m2.flat()[ind]);
 
-    setSeqTerminated(same(m1, m2));
+    return same(m1, m2);
   }
 
   function seqTerminatedActions() {
@@ -229,6 +242,10 @@ export default function Home() {
   function toggleInfoDialog() {
     const dialogOpen = infoDialogOpen;
     setInfoDialogOpen(!dialogOpen);
+  }
+
+  function toggleTerminateSequence() {
+    setTerminateSequence(!terminateSequence);
   }
 
   const props = {
@@ -261,6 +278,8 @@ export default function Home() {
     patternSelectedActions,
     openPatternsDialog: togglePatternsDialog,
     openInfoDialog: toggleInfoDialog,
+    terminateSequence,
+    toggleTerminateSequence,
   };
 
   const addPatternsDialogProps: AddPatternsDialogProps = {

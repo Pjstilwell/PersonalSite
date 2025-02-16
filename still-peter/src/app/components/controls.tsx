@@ -1,6 +1,8 @@
-import { Button, Tooltip } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, Tooltip } from "@mui/material";
 import DisplaySquare from "./display-square";
 import { Pattern } from "../resources/pattern-squares";
+import { Dispatch, SetStateAction } from "react";
+import { Value } from "sass";
 
 export type ControlProps = {
   goClicked: () => void;
@@ -21,6 +23,8 @@ export type ControlProps = {
   patternSelectedActions: (pattern: Pattern) => void;
   openPatternsDialog: () => void;
   openInfoDialog: () => void;
+  terminateSequence: boolean;
+  toggleTerminateSequence: () => void;
 };
 
 export default function Controls(props: ControlProps) {
@@ -168,6 +172,19 @@ export default function Controls(props: ControlProps) {
               </span>
               Add Patterns
             </button>
+          </Tooltip>
+        </div>
+        <div className="flexy-info" style={{ marginTop: "1rem" }}>
+          <Tooltip title="Terminate sequence if sequence is repeating">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={props.terminateSequence}
+                  onChange={() => props.toggleTerminateSequence()}
+                ></Checkbox>
+              }
+              label="Terminate Sequence"
+            />
           </Tooltip>
         </div>
       </div>
