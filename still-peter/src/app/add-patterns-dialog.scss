@@ -6,9 +6,6 @@
 }
 
 .dialog-wrapper {
-  display: grid;
-  grid-template-rows: 2;
-  gap: 1rem;
   margin: 1rem;
 }
 
@@ -16,12 +13,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  grid-row: 1;
 }
 
 .dialog-content {
   display: flex;
-  grid-row: 2;
 }
 
 .patterns-settings-wrapper {

@@ -166,7 +166,7 @@ export default function InfoDialogStepper() {
             id="row-input"
             type="number"
             disabled={true}
-            value={50}
+            value={30}
           ></input>
           <div className="flexy">
             <p id="col-para">Columns (1-100):</p>
@@ -176,7 +176,7 @@ export default function InfoDialogStepper() {
             id="col-input"
             type="number"
             disabled={true}
-            value={50}
+            value={30}
           ></input>
         </div>
         <p>

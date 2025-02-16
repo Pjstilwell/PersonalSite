@@ -10,8 +10,8 @@ import { Pattern, patternGroups } from "../resources/pattern-squares";
 import InfoDialog from "./info-dialog";
 
 export default function Home() {
-  const [numRows, setNumRows] = useState(50);
-  const [numCols, setNumCols] = useState(50);
+  const [numRows, setNumRows] = useState(30);
+  const [numCols, setNumCols] = useState(40);
   const [nextIteration, setNextIteration] = useState(
     GridFunctions.initialiseZeroArray(numRows, numCols)
   );
@@ -140,6 +140,10 @@ export default function Home() {
       setActiveCells(
         GridFunctions.checkForActiveCells(newIteration, numRows, numCols)
       );
+
+      if (!activeCells) {
+        setPlaying(false);
+      }
     }
   }
 

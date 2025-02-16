@@ -96,6 +96,7 @@ export default function AddPatternsDialog(props: AddPatternsDialogProps) {
             Close
           </button>
         </div>
+        <p>Select a pattern below to add to the grid.</p>
         <div className="dialog-content">
           <div className="patterns-settings-wrapper">
             <div className="patterns-wrapper">{patternListWrapper}</div>
