@@ -114,6 +114,8 @@ input {
 }
 
 .css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root.Mui-active,
-.css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed {
-  color: $cp3-2;
+.css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed,
+.css-124afma.Mui-active,
+.css-124afma.Mui-completed {
+  color: $cp3-2 !important;
 }

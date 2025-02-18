@@ -192,6 +192,7 @@ export default function Controls(props: ControlProps) {
                 <Checkbox
                   value={props.terminateSequence}
                   onChange={() => props.toggleTerminateSequence()}
+                  id="toggle-term-seq"
                 ></Checkbox>
               }
               label="Terminate Sequence"

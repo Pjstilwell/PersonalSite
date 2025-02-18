@@ -291,13 +291,15 @@ input[type="number"]::-webkit-outer-spin-button {
   border-width: 1rem;
 }
 
-.css-imrjgg-MuiButtonBase-root-MuiCheckbox-root.Mui-checked {
-  color: $cp-3;
+.css-imrjgg-MuiButtonBase-root-MuiCheckbox-root.Mui-checked,
+.css-d771x4.Mui-checked {
+  color: $cp-3 !important;
 }
 
-.css-rizt0-MuiTypography-root {
-  font-family: "Pixelify Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 600;
-  font-style: normal;
+.css-rizt0-MuiTypography-root,
+.css-fyswvn {
+  font-family: "Pixelify Sans", sans-serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 600 !important;
+  font-style: normal !important;
 }

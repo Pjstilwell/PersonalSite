@@ -163,7 +163,7 @@ export default function InfoDialogStepper() {
           </div>
           <input
             className="info-input"
-            id="row-input"
+            id="row-input-info"
             type="number"
             disabled={true}
             value={30}
@@ -173,7 +173,7 @@ export default function InfoDialogStepper() {
           </div>
           <input
             className="info-input"
-            id="col-input"
+            id="col-input-info"
             type="number"
             disabled={true}
             value={30}
