@@ -1,8 +1,6 @@
-import { Button, Checkbox, FormControlLabel, Tooltip } from "@mui/material";
+import { Checkbox, FormControlLabel, Tooltip } from "@mui/material";
 import DisplaySquare from "./display-square";
 import { Pattern } from "../resources/pattern-squares";
-import { Dispatch, SetStateAction } from "react";
-import { Value } from "sass";
 
 export type ControlProps = {
   goClicked: () => void;

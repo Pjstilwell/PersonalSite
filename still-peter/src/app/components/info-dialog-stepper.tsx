@@ -1,6 +1,5 @@
 import { Button, Step, StepLabel, Stepper } from "@mui/material";
 import React from "react";
-import img from "../images/Cell_Clicking_Info.png";
 import Grid from "./grid";
 
 export default function InfoDialogStepper() {
@@ -15,7 +14,7 @@ export default function InfoDialogStepper() {
 
   const steps = ["About", "Rules", "How to Play"];
   const stepsContent = [
-    <p>
+    <p key="aboutp">
       <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">
         <u>Game Of Life</u>
       </a>
@@ -28,7 +27,7 @@ export default function InfoDialogStepper() {
       and become alive or dead based on a specific set of rules about each cells
       eight neighbors...
     </p>,
-    <div>
+    <div key="rulesp">
       <p style={{ marginBottom: "0.5rem" }}>
         Rules of the game: Each cell is either alive or dead. Each cell then
         becomes alive or dead based on its current state and the state of its
@@ -102,7 +101,7 @@ export default function InfoDialogStepper() {
         </div>
       </div>
     </div>,
-    <div>
+    <div key="howtoplayp">
       <p style={{ marginBottom: "0.5rem" }}>How to play: </p>
       <div className="instruction-grid">
         <p>
@@ -119,8 +118,9 @@ export default function InfoDialogStepper() {
           </button>
         </div>
         <p>
-          Use the 'Back', 'Play', and 'Next' steps to control the game, stepping
-          forward and back in time to see how the population grows.
+          {
+            "Use the 'Back', 'Play', and 'Next' steps to control the game, stepping forward and back in time to see how the population grows."
+          }
         </p>
         <div className="scrub-wrapper-info flexy-info">
           <button disabled={true}>
@@ -180,11 +180,9 @@ export default function InfoDialogStepper() {
           ></input>
         </div>
         <p>
-          User the 'Add Patterns' button to add some presets to the grid. Simply
-          select the pattern you wish to add, then click the grid where you
-          would like to add the pattern. The presets all behave in fun ways;
-          'Oscillators' loop through phases, whilst 'Spaceships' move slowly
-          across the screen.
+          {
+            "User the 'Add Patterns' button to add some presets to the grid. Simply select the pattern you wish to add, then click the grid where you would like to add the pattern. The presets all behave in fun ways; 'Oscillators' loop through phases, whilst 'Spaceships' move slowly across the screen."
+          }
         </p>
         <div className="flexy">
           <button disabled={true}>
@@ -206,7 +204,7 @@ export default function InfoDialogStepper() {
     <div>
       <div className="stepper-wrapper">
         <Stepper activeStep={activeStep}>
-          {steps.map((label, index) => {
+          {steps.map((label) => {
             return (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>

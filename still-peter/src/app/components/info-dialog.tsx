@@ -1,5 +1,5 @@
 import Dialog from "@mui/material/Dialog";
-import React, { useContext } from "react";
+import React from "react";
 import "../info-dialog.scss";
 import InfoDialogStepper from "./info-dialog-stepper";
 
