@@ -12,42 +12,48 @@ import InfoDialog from "./info-dialog";
 export default function Home() {
   const [numRows, setNumRows] = useState(30);
   const [numCols, setNumCols] = useState(40);
+
+  //Stores the next iteration
   const [nextIteration, setNextIteration] = useState(
     GridFunctions.initialiseZeroArray(numRows, numCols)
   );
-  const [iterationStore, setIterationStore] = useState(
-    GridFunctions.initialiseIterationStore(numRows, numCols)
-  );
-  const [playing, setPlaying] = useState(false);
+
+  //Stores the history of the iterations
+  const [iterationStore, setIterationStore] = useState([
+    GridFunctions.initialiseZeroArray(numRows, numCols),
+  ]);
+
+  //Tracks if the game is currently playing
+  const [isPlaying, setIsPlaying] = useState(false);
 
   //tracks if any cells are active
   const [activeCells, setActiveCells] = useState(false);
 
   //tracks if sequence is terminated
-  const [seqTerminated, setSeqTerminated] = useState(false);
+  const [isSeqTerminated, setIsSeqTerminated] = useState(false);
 
   //tracks if pattern is currently selected
-  const [patternSelected, setPatternSelected] = useState(false);
+  const [isPatternSelected, setIsPatternSelected] = useState(false);
 
   //tracks the selected pattern
   const initialPattern = patternGroups[0].patterns[0];
   const [selectedPattern, setSelectedPattern] = useState(initialPattern);
 
   //Tracks Pattern Dialog Open
-  const [patternsDialogOpen, setPatternsDialogOpen] = useState(false);
+  const [isPatternsDialogOpen, setIsPatternsDialogOpen] = useState(false);
 
   //Tracks Info Dialog Open
-  const [infoDialogOpen, setInfoDialogOpen] = useState(false);
+  const [isInfoDialogOpen, setIsInfoDialogOpen] = useState(false);
 
   //Option to terminate sequence if repeating
   const [terminateSequence, setTerminateSequence] = useState(false);
 
   // Using a ref to always get the latest value of `playing` inside the setTimeout callback
-  const playingRef = useRef(playing);
-  playingRef.current = playing;
+  const playingRef = useRef(isPlaying);
+  playingRef.current = isPlaying;
 
   useEffect(() => {
-    if (playing) {
+    if (isPlaying) {
       const timeoutId = setTimeout(() => {
         if (playingRef) {
           goClicked();
@@ -55,7 +61,7 @@ export default function Home() {
       }, 500);
       return () => clearTimeout(timeoutId);
     }
-  }, [playing, nextIteration]);
+  }, [isPlaying, nextIteration]);
 
   useEffect(() => {
     const newNextIteration = GridFunctions.initialiseZeroArray(
@@ -66,9 +72,16 @@ export default function Home() {
     setNextIteration(newNextIteration);
   }, [numRows, numCols]);
 
+  /**
+   * Handles the logic for when a square is clicked in the grid
+   * Will either apply a pattern or turn a cell on and off
+   * @param rowIndex row of the cell
+   * @param colIndex col of the cell
+   * @param newVal boolean, if cell is to be live or dead
+   */
   function squareClicked(rowIndex: number, colIndex: number, newVal: boolean) {
     //Different logic for handling when user is attempting to apply a pattern
-    if (patternSelected) {
+    if (isPatternSelected) {
       setNextIteration(
         GridFunctions.applyPattern(
           selectedPattern!,
@@ -77,7 +90,7 @@ export default function Home() {
           nextIteration
         )
       );
-      setSeqTerminated(false);
+      setIsSeqTerminated(false);
       setActiveCells(
         GridFunctions.checkForActiveCells(nextIteration, numRows, numCols)
       );
@@ -91,7 +104,7 @@ export default function Home() {
         )
       );
 
-      setSeqTerminated(false);
+      setIsSeqTerminated(false);
 
       if (newVal) setActiveCells(true);
       else
@@ -101,14 +114,21 @@ export default function Home() {
     }
   }
 
+  /**
+   * Push the current iteration into the store
+   */
   function pushCurIterationToStore() {
-    //push current iteration into store
     const curIterationStore = iterationStore;
     const curIteration = nextIteration;
     curIterationStore.push(curIteration);
     setIterationStore(curIterationStore);
   }
 
+  /**
+   * Handles when the next 'go' button is clicked
+   * Will compute the next iteration, and also check for
+   * sequence termination if setting is activated
+   */
   function goClicked() {
     pushCurIterationToStore();
     const newIteration = GridFunctions.calculateNextIteration(
@@ -129,11 +149,11 @@ export default function Home() {
           iterationStore[iterationStore.length - 2]
         ))
     ) {
-      setSeqTerminated(true);
+      setIsSeqTerminated(true);
     }
 
     //sequence terminated?
-    if (seqTerminated) {
+    if (isSeqTerminated) {
       seqTerminatedActions();
     } else {
       setNextIteration(newIteration);
@@ -142,11 +162,14 @@ export default function Home() {
       );
 
       if (!activeCells) {
-        setPlaying(false);
+        setIsPlaying(false);
       }
     }
   }
 
+  /**
+   * Handles the logic for when the back button is clicked
+   */
   function backClicked() {
     const newIteration = iterationStore.pop()!;
     setNextIteration(newIteration);
@@ -155,13 +178,13 @@ export default function Home() {
       GridFunctions.checkForActiveCells(newIteration, numRows, numCols)
     );
 
-    setSeqTerminated(false);
+    setIsSeqTerminated(false);
   }
 
-  const togglePlaying = () => {
-    setPlaying((prev) => !prev);
-  };
-
+  /**
+   * Checks the input numRows value and sets it
+   * @param val Input value
+   */
   function numRowsChanged(val: string) {
     let numVal = parseInt(val, 10);
     if (numVal > 100) numVal = 100;
@@ -169,9 +192,13 @@ export default function Home() {
     if (!isNaN(numVal)) {
       setNumRows(numVal);
     }
-    setSeqTerminated(false);
+    setIsSeqTerminated(false);
   }
 
+  /**
+   * Checks the input numCols value and sets it
+   * @param val Input value
+   */
   function numColsChanged(val: string) {
     let numVal = parseInt(val, 10);
     if (numVal > 100) numVal = 100;
@@ -179,37 +206,45 @@ export default function Home() {
     if (!isNaN(numVal)) {
       setNumCols(numVal);
     }
-    setSeqTerminated(false);
+    setIsSeqTerminated(false);
   }
 
+  /**
+   * Randomly turns kills or brings to life every cell in the grid
+   */
   function randomise() {
     //randomise grid
     const newIteration = GridFunctions.randomiseIteration(numRows, numCols);
     setNextIteration(newIteration);
 
-    //TODO: look into bug that store isn't clearing?
-    //clear store
-    setIterationStore(GridFunctions.initialiseIterationStore(numRows, numCols));
-
-    pushCurIterationToStore();
+    //TODO: fix back button duplicating iterations when randomised
+    const curIterationStore = [
+      GridFunctions.initialiseZeroArray(numRows, numCols),
+      newIteration,
+    ];
+    setIterationStore(curIterationStore);
+    console.log(iterationStore);
 
     setActiveCells(
       GridFunctions.checkForActiveCells(newIteration, numRows, numCols)
     );
 
-    setSeqTerminated(false);
+    setIsSeqTerminated(false);
   }
 
+  /**
+   * Empties the grid and the iteration store
+   */
   function clearGrid() {
     //clear store
-    setIterationStore(GridFunctions.initialiseIterationStore(numRows, numCols));
+    setIterationStore([GridFunctions.initialiseZeroArray(numRows, numCols)]);
 
     //clean grid
     const newIteration = GridFunctions.createIterationArray(numRows, numCols);
     setNextIteration(newIteration);
 
-    setActiveCells(false);
-    setSeqTerminated(false);
+    // setActiveCells(false);
+    setIsSeqTerminated(false);
   }
 
   /**
@@ -224,43 +259,54 @@ export default function Home() {
     return same(m1, m2);
   }
 
+  /**
+   * Handles when the sequence is terminated
+   */
   function seqTerminatedActions() {
-    setPlaying(false);
+    setIsPlaying(false);
   }
 
+  /**
+   * Handles when a pattern is selected to be applied to the grid
+   * @param pattern Selected pattern
+   */
   function patternSelectedActions(pattern: Pattern) {
-    setPatternSelected(true);
+    setIsPatternSelected(true);
     setSelectedPattern(pattern);
     togglePatternsDialog();
   }
 
+  function togglePlaying() {
+    setIsPlaying((prev) => !prev);
+  }
+
   function patternUnselected() {
-    if (patternSelected) setPatternSelected(false);
+    if (isPatternSelected) setIsPatternSelected(false);
   }
 
   function togglePatternsDialog() {
-    const dialogOpen = patternsDialogOpen;
-    setPatternsDialogOpen(!dialogOpen);
+    const dialogOpen = isPatternsDialogOpen;
+    setIsPatternsDialogOpen(!dialogOpen);
   }
 
   function toggleInfoDialog() {
-    const dialogOpen = infoDialogOpen;
-    setInfoDialogOpen(!dialogOpen);
+    const dialogOpen = isInfoDialogOpen;
+    setIsInfoDialogOpen(!dialogOpen);
   }
 
   function toggleTerminateSequence() {
     setTerminateSequence(!terminateSequence);
   }
 
-  const props = {
+  const gridProps = {
     iteration: nextIteration,
     squareClicked,
     numRows: numRows,
     numCols: numCols,
-    seqTerminated: seqTerminated,
-    patternSelected: patternSelected,
+    seqTerminated: isSeqTerminated,
+    patternSelected: isPatternSelected,
     selectedPattern: selectedPattern,
-    infoDialog: false,
+    isInfoDialogGrid: false,
   };
 
   const controlProps: ControlProps = {
@@ -272,12 +318,12 @@ export default function Home() {
     numColsChanged,
     randomise,
     clear: clearGrid,
-    playing: playing,
+    isPlaying: isPlaying,
     togglePlaying,
     iterationsLength: iterationStore.length,
     activeCells: activeCells,
-    seqTerminated: seqTerminated,
-    patternSelected: patternSelected,
+    isSeqTerminated: isSeqTerminated,
+    isPatternSelected: isPatternSelected,
     selectedPattern: selectedPattern,
     patternSelectedActions,
     openPatternsDialog: togglePatternsDialog,
@@ -287,11 +333,11 @@ export default function Home() {
   };
 
   const addPatternsDialogProps: AddPatternsDialogProps = {
-    patternsDialogOpen: patternsDialogOpen,
+    isPatternsDialogOpen: isPatternsDialogOpen,
     openPatternsDialog: togglePatternsDialog,
     numRows: numRows,
     numCols: numCols,
-    patternSelected: patternSelected,
+    isPatternSelected: isPatternSelected,
     selectedPattern: selectedPattern,
     patternSelectedActions,
   };
@@ -301,13 +347,13 @@ export default function Home() {
       <Controls {...controlProps} />
       {nextIteration.length === numRows &&
       nextIteration[0]?.length === numCols ? (
-        <Grid {...props} />
+        <Grid {...gridProps} />
       ) : (
         <div></div>
       )}
       <AddPatternsDialog {...addPatternsDialogProps}></AddPatternsDialog>
       <InfoDialog
-        open={infoDialogOpen}
+        isDialogOpen={isInfoDialogOpen}
         triggerOpen={() => toggleInfoDialog()}
       ></InfoDialog>
     </div>

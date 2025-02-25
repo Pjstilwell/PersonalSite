@@ -165,6 +165,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .square-wrapper {
   border-color: $cp3-4;
   height: 100%;
+  width: 100%;
 }
 
 .square-button {
@@ -207,20 +208,10 @@ input[type="number"]::-webkit-outer-spin-button {
   grid-template-rows: 2;
 }
 
-.applying-pattern-btn-text {
-  width: 100%;
-  text-align: center;
-}
-
 .applying-pattern-wrapper {
   border-radius: 0.5rem;
   border-color: $cp3-5;
   border-width: 0.5rem;
-}
-
-.pattern-display-wrapper {
-  margin: 1rem;
-  background-color: white;
 }
 
 .display-grid-wrapper {
@@ -261,26 +252,12 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .square-off {
-  background-color: white;
+  background-color: $cp3-6;
 }
 
 .flexy {
   display: flex;
   align-items: center;
-}
-
-#overlay {
-  position: fixed; /* Sit on top of the page content */
-  min-width: 15rem;
-  width: 15%; /* Full width (cover the whole page) */
-  height: 100%; /* Full height (cover the whole page) */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
-  z-index: 0; /* Specify a stack order in case you're using a different order for other elements */
-  cursor: pointer; /* Add a pointer on hover */
 }
 
 .control-wrapper button {

@@ -11,12 +11,12 @@ export type ControlProps = {
   numColsChanged: (num: string) => void;
   randomise: () => void;
   clear: () => void;
-  playing: boolean;
+  isPlaying: boolean;
   togglePlaying: () => void;
   iterationsLength: number;
   activeCells: boolean;
-  seqTerminated: boolean;
-  patternSelected: boolean;
+  isSeqTerminated: boolean;
+  isPatternSelected: boolean;
   selectedPattern: Pattern;
   patternSelectedActions: (pattern: Pattern) => void;
   openPatternsDialog: () => void;
@@ -26,7 +26,8 @@ export type ControlProps = {
 };
 
 export default function Controls(props: ControlProps) {
-  const playClickedClass = props.playing ? "clicked-button" : "";
+  console.log(props);
+  const playClickedClass = props.isPlaying ? "clicked-button" : "";
 
   function createPattern(pattern: Pattern, applyingPatternStyle: boolean) {
     const displayedPattern: React.ReactNode[] = [];
@@ -59,7 +60,8 @@ export default function Controls(props: ControlProps) {
     return displayedPattern;
   }
 
-  if (props.patternSelected) {
+  if (props.isPatternSelected) {
+    console.log("here");
     const applyingPattern = createPattern(props.selectedPattern, true);
     return (
       <div className="add-pattern-wrapper">
@@ -103,7 +105,7 @@ export default function Controls(props: ControlProps) {
           <Tooltip title={"Play/Pause"}>
             <span>
               <button
-                disabled={!props.activeCells || props.seqTerminated}
+                disabled={!props.activeCells || props.isSeqTerminated}
                 className={playClickedClass}
                 onClick={() => props.togglePlaying()}
               >
@@ -114,7 +116,7 @@ export default function Controls(props: ControlProps) {
           <Tooltip title={"Next Step"}>
             <span>
               <button
-                disabled={!props.activeCells || props.seqTerminated}
+                disabled={!props.activeCells || props.isSeqTerminated}
                 onClick={() => props.goClicked()}
               >
                 <span className="material-symbols-outlined">last_page</span>
@@ -126,7 +128,7 @@ export default function Controls(props: ControlProps) {
           <Tooltip title={"Randomise Grid"}>
             <span>
               <button
-                disabled={props.playing}
+                disabled={props.isPlaying}
                 onClick={() => props.randomise()}
               >
                 <span className="material-symbols-outlined casino-logo-spacing">
@@ -139,7 +141,7 @@ export default function Controls(props: ControlProps) {
           <Tooltip title={"Empty Grid"}>
             <span>
               <button
-                disabled={!props.activeCells || props.playing}
+                disabled={!props.activeCells || props.isPlaying}
                 onClick={() => props.clear()}
               >
                 <span className="material-symbols-outlined casino-logo-spacing">

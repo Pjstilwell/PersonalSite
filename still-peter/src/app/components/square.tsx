@@ -25,17 +25,15 @@ export default function Square(props: SquareProps) {
     const newVal = !squareState;
     setSquareState(newVal);
 
-    //tell Home
+    //tell Home square was clicked
     if (props.squareClicked)
       props.squareClicked(props.squareIndexRow, props.squareIndexCol, newVal);
   }
 
+  //handle dynamic styling based on cell alive or dead
   const stateClass = squareState ? "square-on" : "square-off";
 
-  const wrapStyle = {
-    width: `calc(100% / ${props.numCols})`,
-  };
-
+  //border width changes based on total number of rows and columns
   let borderWidth;
   if (props.numCols + props.numRows > 150) {
     borderWidth = "0.01rem";
@@ -54,6 +52,11 @@ export default function Square(props: SquareProps) {
       : `${0.5 / ((props.numCols + props.numRows) / 20)}rem`,
   };
 
+  /**
+   * Checks if a square should be disabled based on the selected pattern
+   * This prevents user selecting a grid position where the pattern would not fit
+   * @returns
+   */
   function checkDisabled(): boolean {
     if (props.selectedPattern != undefined) {
       return (
@@ -72,11 +75,7 @@ export default function Square(props: SquareProps) {
     : "square-button ";
 
   return (
-    <div
-      className="square-wrapper"
-      style={wrapStyle}
-      key={props.squareKey + "-wrap"}
-    >
+    <div className="square-wrapper" key={props.squareKey + "-wrap"}>
       <button
         id={props.infoDialog ? "info-" + props.squareKey : props.squareKey}
         key={props.squareKey}

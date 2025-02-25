@@ -4,13 +4,13 @@ import "../info-dialog.scss";
 import InfoDialogStepper from "./info-dialog-stepper";
 
 export type InfoDialogProps = {
-  open: boolean;
+  isDialogOpen: boolean;
   triggerOpen: () => void;
 };
 
 export default function InfoDialog(props: InfoDialogProps) {
   return (
-    <Dialog open={props.open}>
+    <Dialog open={props.isDialogOpen}>
       <div className="dialog-wrapper">
         <div className="dialog-title-wrapper">
           <h1 className="dialog-title">About GAME OF LIFE</h1>

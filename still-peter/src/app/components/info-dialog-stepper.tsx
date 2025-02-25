@@ -3,6 +3,7 @@ import React from "react";
 import Grid from "./grid";
 
 export default function InfoDialogStepper() {
+  //Stores the current active step in the stepper
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
@@ -48,7 +49,7 @@ export default function InfoDialogStepper() {
             ]}
             numRows={3}
             numCols={3}
-            infoDialog={true}
+            isInfoDialogGrid={true}
           ></Grid>
         </div>
         <p>
@@ -64,7 +65,7 @@ export default function InfoDialogStepper() {
             ]}
             numRows={3}
             numCols={3}
-            infoDialog={true}
+            isInfoDialogGrid={true}
           ></Grid>
         </div>
         <p>
@@ -80,7 +81,7 @@ export default function InfoDialogStepper() {
             ]}
             numRows={3}
             numCols={3}
-            infoDialog={true}
+            isInfoDialogGrid={true}
           ></Grid>
         </div>
         <p>
@@ -96,7 +97,7 @@ export default function InfoDialogStepper() {
             ]}
             numRows={3}
             numCols={3}
-            infoDialog={true}
+            isInfoDialogGrid={true}
           ></Grid>
         </div>
       </div>
@@ -196,10 +197,6 @@ export default function InfoDialogStepper() {
     </div>,
   ];
 
-  function getStepsContent() {
-    return stepsContent[activeStep];
-  }
-
   return (
     <div>
       <div className="stepper-wrapper">
@@ -219,12 +216,11 @@ export default function InfoDialogStepper() {
           color="inherit"
           disabled={activeStep === 0}
           onClick={handleBack}
-          sx={{ mr: 1 }}
           className="back-button"
         >
           <span className="material-symbols-outlined">chevron_left</span>
         </Button>
-        <div className="content-col">{getStepsContent()}</div>
+        <div className="content-col">{stepsContent[activeStep]}</div>
         <Button
           onClick={handleNext}
           className="forward-button"
@@ -232,10 +228,6 @@ export default function InfoDialogStepper() {
         >
           <span className="material-symbols-outlined">chevron_right</span>
         </Button>
-        {/* 
-      <Box sx={{ flex: "1 1 auto" }} /><Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-        Skip
-      </Button> */}
       </div>
     </div>
   );

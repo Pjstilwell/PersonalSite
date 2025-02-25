@@ -4,9 +4,9 @@ import { patternGroups, Pattern } from "../resources/pattern-squares";
 import "../../app/add-patterns-dialog.scss";
 
 export type AddPatternsDialogProps = {
-  patternsDialogOpen: boolean;
+  isPatternsDialogOpen: boolean;
   openPatternsDialog: () => void;
-  patternSelected: boolean;
+  isPatternSelected: boolean;
   selectedPattern: Pattern;
   patternSelectedActions: (pattern: Pattern) => void;
   numRows: number;
@@ -15,12 +15,13 @@ export type AddPatternsDialogProps = {
 export default function AddPatternsDialog(props: AddPatternsDialogProps) {
   const patternListWrapper: React.ReactNode[] = [];
 
+  //Create all pattern buttons
   for (const group of patternGroups) {
     //Create list of patterns
     const patternList: React.ReactNode[] = [];
     for (const pattern of group.patterns) {
       const selectedClass =
-        props.selectedPattern == pattern && props.patternSelected
+        props.selectedPattern == pattern && props.isPatternSelected
           ? "clicked-button"
           : "";
 
@@ -72,6 +73,12 @@ export default function AddPatternsDialog(props: AddPatternsDialogProps) {
     );
   }
 
+  /**
+   * Creates pattern to display on button
+   * @param pattern
+   * @param applyingPatternStyle
+   * @returns
+   */
   function createPattern(pattern: Pattern, applyingPatternStyle: boolean) {
     const displayedPattern: React.ReactNode[] = [];
 
@@ -104,7 +111,7 @@ export default function AddPatternsDialog(props: AddPatternsDialogProps) {
   }
 
   return (
-    <Dialog open={props.patternsDialogOpen} className="dialog-style">
+    <Dialog open={props.isPatternsDialogOpen} className="dialog-style">
       <div className="dialog-wrapper">
         <div className="dialog-title-wrapper">
           <h1 className="dialog-title">Add Patterns</h1>

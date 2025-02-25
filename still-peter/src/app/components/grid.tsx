@@ -7,16 +7,16 @@ type GridProps = {
   numRows: number;
   numCols: number;
   seqTerminated?: boolean;
-  patternSelected?: boolean;
+  isPatternSelected?: boolean;
   selectedPattern?: Pattern;
-  infoDialog: boolean;
+  isInfoDialogGrid: boolean;
 };
 
 export default function Grid(props: GridProps) {
   const iteration = props.iteration;
   const seqTermClass = props.seqTerminated ? "flash-terminated" : "";
 
-  // Add defensive checks
+  //Return Loading if iteration not initialised
   if (
     !iteration ||
     iteration.length === 0 ||
@@ -41,9 +41,9 @@ export default function Grid(props: GridProps) {
         squareClicked: props.squareClicked,
         numRows: props.numRows,
         numCols: props.numCols,
-        patternSelected: props.patternSelected,
+        patternSelected: props.isPatternSelected,
         selectedPattern: props.selectedPattern,
-        infoDialog: props.infoDialog,
+        infoDialog: props.isInfoDialogGrid,
       };
       row.push(squareProps);
     }
@@ -60,7 +60,7 @@ export default function Grid(props: GridProps) {
     );
   }
 
-  const wrapperClass = props.infoDialog
+  const wrapperClass = props.isInfoDialogGrid
     ? "info-page-wrapper "
     : "page-wrapper ";
 

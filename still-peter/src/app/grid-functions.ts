@@ -18,13 +18,6 @@ export class GridFunctions {
     return iteration;
   }
 
-  public static initialiseIterationStore(
-    numRows: number,
-    numCols: number
-  ): boolean[][][] {
-    return [this.createIterationArray(numRows, numCols)];
-  }
-
   public static setStateOfPosition(
     rowIndex: number,
     colIndex: number,
