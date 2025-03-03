@@ -25,6 +25,10 @@ body {
   width: 100%;
 }
 
+p {
+  text-align: center;
+}
+
 button {
   background-color: $cp3-4;
   color: $cp3-6;
@@ -174,7 +178,6 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .square-wrapper {
-  border-color: $cp3-4;
   height: 100%;
   width: 100%;
 }
@@ -258,8 +261,26 @@ input[type="number"]::-webkit-outer-spin-button {
   grid-column: 2;
 }
 
+#speed-para {
+  grid-row: 3;
+  grid-column: 1;
+}
+
+#speed-input {
+  grid-row: 3;
+  grid-column: 2;
+}
+
+input[type="range"] {
+  accent-color: $cp-3;
+}
+
 .square-on {
   background-color: $cp3-4;
+}
+
+.playing-example > * .square-on {
+  background-color: $cp3-5;
 }
 
 .square-off {

@@ -13,21 +13,10 @@ export default function Home() {
   const [numRows, setNumRows] = useState(30);
   const [numCols, setNumCols] = useState(40);
 
-  //Stores the next iteration
-  const [nextIteration, setNextIteration] = useState(
-    GridFunctions.initialiseZeroArray(numRows, numCols)
-  );
-
   //Stores the history of the iterations
   const [iterationStore, setIterationStore] = useState([
     GridFunctions.initialiseZeroArray(numRows, numCols),
   ]);
-
-  //Tracks if the game is currently playing
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  //tracks if any cells are active
-  const [activeCells, setActiveCells] = useState(false);
 
   //tracks if sequence is terminated
   const [isSeqTerminated, setIsSeqTerminated] = useState(false);
@@ -48,26 +37,40 @@ export default function Home() {
   //Option to terminate sequence if repeating
   const [terminateSequence, setTerminateSequence] = useState(false);
 
+  //Stores the next iteration
+  const [nextIteration, setNextIteration] = useState(
+    GridFunctions.randomiseIteration(numRows, numCols)
+  );
+
+  //Boolean to track playing example
+  const [isPlayingExample, setIsPlayingExample] = useState(true);
+
+  //Tracks if the game is currently playing
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  //tracks if any cells are active
+  const [activeCells, setActiveCells] = useState(false);
+
+  //Tracks speed of iteration changes
+  const [iterationSpeed, setIterationSpeed] = useState(5);
+
   // Using a ref to always get the latest value of `playing` inside the setTimeout callback
   const playingRef = useRef(isPlaying);
   playingRef.current = isPlaying;
 
   useEffect(() => {
-    if (isPlaying) {
+    if (isPlaying || isPlayingExample) {
       const timeoutId = setTimeout(() => {
         if (playingRef) {
           goClicked();
         }
-      }, 500);
+      }, 1500 - 200 * iterationSpeed);
       return () => clearTimeout(timeoutId);
     }
   }, [isPlaying, nextIteration]);
 
   useEffect(() => {
-    const newNextIteration = GridFunctions.initialiseZeroArray(
-      numRows,
-      numCols
-    );
+    const newNextIteration = GridFunctions.randomiseIteration(numRows, numCols);
 
     setNextIteration(newNextIteration);
   }, [numRows, numCols]);
@@ -80,6 +83,13 @@ export default function Home() {
    * @param newVal boolean, if cell is to be live or dead
    */
   function squareClicked(rowIndex: number, colIndex: number, newVal: boolean) {
+    //Clear Example Playing
+    if (isPlayingExample) {
+      clearGrid();
+      setIsPlayingExample(false);
+      return;
+    }
+
     //Different logic for handling when user is attempting to apply a pattern
     if (isPatternSelected) {
       setNextIteration(
@@ -130,41 +140,58 @@ export default function Home() {
    * sequence termination if setting is activated
    */
   function goClicked() {
-    pushCurIterationToStore();
+    if (isPlayingExample) {
+      goClickedExample();
+    } else {
+      pushCurIterationToStore();
+      const newIteration = GridFunctions.calculateNextIteration(
+        nextIteration,
+        numRows,
+        numCols
+      );
+
+      //Check for termination against previous 2 iterations
+      if (
+        terminateSequence &&
+        (checkIfSequenceTerminated(
+          newIteration,
+          iterationStore[iterationStore.length - 1]
+        ) ||
+          checkIfSequenceTerminated(
+            newIteration,
+            iterationStore[iterationStore.length - 2]
+          ))
+      ) {
+        setIsSeqTerminated(true);
+      }
+
+      //sequence terminated?
+      if (isSeqTerminated) {
+        seqTerminatedActions();
+      } else {
+        setNextIteration(newIteration);
+        setActiveCells(
+          GridFunctions.checkForActiveCells(newIteration, numRows, numCols)
+        );
+
+        if (!activeCells) {
+          setIsPlaying(false);
+        }
+      }
+    }
+  }
+
+  /**
+   * As in goClicked but removed functionality since only
+   * playing the example game
+   */
+  function goClickedExample() {
     const newIteration = GridFunctions.calculateNextIteration(
       nextIteration,
       numRows,
       numCols
     );
-
-    //Check for termination against previous 2 iterations
-    if (
-      terminateSequence &&
-      (checkIfSequenceTerminated(
-        newIteration,
-        iterationStore[iterationStore.length - 1]
-      ) ||
-        checkIfSequenceTerminated(
-          newIteration,
-          iterationStore[iterationStore.length - 2]
-        ))
-    ) {
-      setIsSeqTerminated(true);
-    }
-
-    //sequence terminated?
-    if (isSeqTerminated) {
-      seqTerminatedActions();
-    } else {
-      setNextIteration(newIteration);
-      setActiveCells(
-        GridFunctions.checkForActiveCells(newIteration, numRows, numCols)
-      );
-
-      if (!activeCells) {
-        setIsPlaying(false);
-      }
-    }
+    setNextIteration(newIteration);
   }
 
   /**
@@ -209,6 +236,10 @@ export default function Home() {
     setIsSeqTerminated(false);
   }
 
+  function speedChanged(val: string) {
+    setIterationSpeed(parseInt(val));
+  }
+
   /**
    * Randomly turns kills or brings to life every cell in the grid
    */
@@ -229,6 +260,7 @@ export default function Home() {
     );
 
     setIsSeqTerminated(false);
+    setIsPlayingExample(false);
   }
 
   /**
@@ -244,6 +276,7 @@ export default function Home() {
 
     // setActiveCells(false);
     setIsSeqTerminated(false);
+    setIsPlayingExample(false);
   }
 
   /**
@@ -262,6 +295,7 @@ export default function Home() {
    * Handles when the sequence is terminated
    */
   function seqTerminatedActions() {
+    console.log("here");
     setIsPlaying(false);
   }
 
@@ -278,6 +312,7 @@ export default function Home() {
   }
 
   function togglePlaying() {
+    console.log("here2");
     setIsPlaying((prev) => !prev);
   }
 
@@ -308,6 +343,7 @@ export default function Home() {
     isPatternSelected: isPatternSelected,
     selectedPattern: selectedPattern,
     isInfoDialogGrid: false,
+    isPlayingExample: isPlayingExample,
   };
 
   const controlProps: ControlProps = {
@@ -331,6 +367,9 @@ export default function Home() {
     openInfoDialog: toggleInfoDialog,
     terminateSequence,
     toggleTerminateSequence,
+    isPlayingExample: isPlayingExample,
+    speedChanged: speedChanged,
+    iterationSpeed: iterationSpeed,
   };
 
   const addPatternsDialogProps: AddPatternsDialogProps = {

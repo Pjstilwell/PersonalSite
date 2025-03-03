@@ -10,11 +10,16 @@ type GridProps = {
   isPatternSelected?: boolean;
   selectedPattern?: Pattern;
   isInfoDialogGrid: boolean;
+  isPlayingExample: boolean;
 };
 
 export default function Grid(props: GridProps) {
   const iteration = props.iteration;
-  const seqTermClass = props.seqTerminated ? "flash-terminated" : "";
+  const wrapperClass = props.isInfoDialogGrid
+    ? "info-page-wrapper"
+    : "page-wrapper ";
+  const seqTermClass = props.seqTerminated ? " flash-terminated" : "";
+  const isPlayingClass = props.isPlayingExample ? " playing-example" : "";
 
   //Return Loading if iteration not initialised
   if (
@@ -49,7 +54,7 @@ export default function Grid(props: GridProps) {
     }
     rows.push(
       <div
-        className="grid-wrapper"
+        className={"grid-wrapper" + isPlayingClass}
         key={i}
         style={{ height: `calc(100% / ${props.numRows})` }}
       >
@@ -59,10 +64,6 @@ export default function Grid(props: GridProps) {
       </div>
     );
   }
-
-  const wrapperClass = props.isInfoDialogGrid
-    ? "info-page-wrapper "
-    : "page-wrapper ";
 
   return <div className={wrapperClass + seqTermClass}>{rows}</div>;
 }

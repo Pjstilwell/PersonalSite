@@ -23,10 +23,14 @@ export type ControlProps = {
   openInfoDialog: () => void;
   terminateSequence: boolean;
   toggleTerminateSequence: () => void;
+  isPlayingExample: boolean;
+  speedChanged: (num: string) => void;
+  iterationSpeed: number;
 };
 
 export default function Controls(props: ControlProps) {
-  const playClickedClass = props.isPlaying ? "clicked-button" : "";
+  const playClickedClass =
+    props.isPlaying && !props.isPlayingExample ? "clicked-button" : "";
 
   function createPattern(pattern: Pattern, applyingPatternStyle: boolean) {
     const displayedPattern: React.ReactNode[] = [];
@@ -138,10 +142,7 @@ export default function Controls(props: ControlProps) {
           </Tooltip>
           <Tooltip title={"Empty Grid"}>
             <span>
-              <button
-                disabled={!props.activeCells || props.isPlaying}
-                onClick={() => props.clear()}
-              >
+              <button disabled={props.isPlaying} onClick={() => props.clear()}>
                 <span className="material-symbols-outlined casino-logo-spacing">
                   check_box_outline_blank
                 </span>
@@ -173,6 +174,17 @@ export default function Controls(props: ControlProps) {
             max={100}
             value={props.numCols}
             onChange={(e) => props.numColsChanged(e.target.value)}
+          ></input>
+          <div className="flexy">
+            <p id="speed-para">Speed (1-6):</p>
+          </div>
+          <input
+            id="speed-input"
+            type="range"
+            min={0}
+            max={6}
+            value={props.iterationSpeed}
+            onChange={(e) => props.speedChanged(e.target.value)}
           ></input>
         </div>
         <div className="button-wrapper">
