@@ -26,7 +26,6 @@ export type ControlProps = {
 };
 
 export default function Controls(props: ControlProps) {
-  console.log(props);
   const playClickedClass = props.isPlaying ? "clicked-button" : "";
 
   function createPattern(pattern: Pattern, applyingPatternStyle: boolean) {
@@ -61,7 +60,6 @@ export default function Controls(props: ControlProps) {
   }
 
   if (props.isPatternSelected) {
-    console.log("here");
     const applyingPattern = createPattern(props.selectedPattern, true);
     return (
       <div className="add-pattern-wrapper">

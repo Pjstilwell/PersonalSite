@@ -9,7 +9,7 @@ type SquareProps = {
   squareClicked?: (rowIndex: number, colIndex: number, newVal: boolean) => void;
   numRows: number;
   numCols: number;
-  patternSelected?: boolean;
+  isPatternSelected?: boolean;
   selectedPattern?: Pattern;
   infoDialog: boolean;
 };
@@ -45,13 +45,6 @@ export default function Square(props: SquareProps) {
     borderWidth = "0.2rem";
   }
 
-  const btnStyle = {
-    borderWidth: props.infoDialog ? "0.1rem" : borderWidth,
-    borderRadius: props.infoDialog
-      ? "0.1rem"
-      : `${0.5 / ((props.numCols + props.numRows) / 20)}rem`,
-  };
-
   /**
    * Checks if a square should be disabled based on the selected pattern
    * This prevents user selecting a grid position where the pattern would not fit
@@ -59,8 +52,10 @@ export default function Square(props: SquareProps) {
    */
   function checkDisabled(): boolean {
     if (props.selectedPattern != undefined) {
+      //If pattern is selected and square is in a space where
+      //the pattern doesn't fit then should be disabled
       return (
-        (props.patternSelected &&
+        (props.isPatternSelected &&
           (props.squareIndexCol + props.selectedPattern.size[0] >
             props.numCols ||
             props.squareIndexRow + props.selectedPattern.size[1] >
@@ -80,7 +75,6 @@ export default function Square(props: SquareProps) {
         id={props.infoDialog ? "info-" + props.squareKey : props.squareKey}
         key={props.squareKey}
         className={buttonClass + stateClass}
-        style={btnStyle}
         onClick={() => {
           if (squareClicked() != undefined) {
             squareClicked();

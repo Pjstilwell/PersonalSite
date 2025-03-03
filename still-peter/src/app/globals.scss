@@ -28,7 +28,7 @@ body {
 button {
   background-color: $cp3-4;
   color: $cp3-6;
-  border-radius: 0.5rem;
+  border-radius: 0.1rem;
   border-width: 0.2rem;
   display: flex;
   align-items: center;
@@ -57,7 +57,7 @@ h1 {
 input {
   background-color: $cp3-4;
   text-align: center;
-  border-radius: 0.5rem;
+  border-radius: 0.1rem;
   margin: 0.5rem;
   border-width: 0.2rem;
   color: $cp3-6;
@@ -81,6 +81,8 @@ input[type="number"]::-webkit-outer-spin-button {
   border-width: 0.5rem;
   width: 100%;
   height: 100%;
+  animation-name: fade-in;
+  animation-duration: 1s;
 }
 
 .flash-terminated {
@@ -98,6 +100,15 @@ input[type="number"]::-webkit-outer-spin-button {
   }
   100% {
     border-color: $cp3-5;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
   }
 }
 
@@ -169,7 +180,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .square-button {
-  border-radius: 1.5rem;
+  border-width: 0.1rem;
   width: 100%;
   height: 100%;
   cursor: pointer;

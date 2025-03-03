@@ -223,7 +223,6 @@ export default function Home() {
       newIteration,
     ];
     setIterationStore(curIterationStore);
-    console.log(iterationStore);
 
     setActiveCells(
       GridFunctions.checkForActiveCells(newIteration, numRows, numCols)
@@ -273,6 +272,8 @@ export default function Home() {
   function patternSelectedActions(pattern: Pattern) {
     setIsPatternSelected(true);
     setSelectedPattern(pattern);
+
+    //Close Patterns Dialog
     togglePatternsDialog();
   }
 
@@ -304,7 +305,7 @@ export default function Home() {
     numRows: numRows,
     numCols: numCols,
     seqTerminated: isSeqTerminated,
-    patternSelected: isPatternSelected,
+    isPatternSelected: isPatternSelected,
     selectedPattern: selectedPattern,
     isInfoDialogGrid: false,
   };

@@ -41,7 +41,7 @@ export default function Grid(props: GridProps) {
         squareClicked: props.squareClicked,
         numRows: props.numRows,
         numCols: props.numCols,
-        patternSelected: props.isPatternSelected,
+        isPatternSelected: props.isPatternSelected,
         selectedPattern: props.selectedPattern,
         infoDialog: props.isInfoDialogGrid,
       };
